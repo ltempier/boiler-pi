@@ -10,23 +10,46 @@ html
         link(href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css", rel="stylesheet")
         link(href="http://bootswatch.com/flatly/bootstrap.min.css", rel="stylesheet")
         link(href="//cdnjs.cloudflare.com/ajax/libs/vis/3.6.4/vis.min.css", rel="stylesheet")
+        link(href="libraries/bootstrap-datetimepicker.min.css", rel="stylesheet")
         link(href="styles/main.css", rel="stylesheet")
 
         script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
         script(src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js")
         script(src="//cdnjs.cloudflare.com/ajax/libs/vis/3.6.4/vis.min.js")
+        script(src="libraries/bootstrap-datetimepicker.min.js")
         script(src="scripts/main.js")
 
     body
-        .navbar.navbar-default.navbar-fixed-top
-            .container
-                .navbar-header
-                    button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
-                        span.sr-only Toggle navigation
-                        span.icon-bar
-                        span.icon-bar
-                        span.icon-bar
-                    a.navbar-brand(href='#') Boiler pi
-        .content
-            .container
-                #visualization
+        //.navbar.navbar-default.navbar-fixed-top
+        //    .container
+        //        .navbar-header
+        //            button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+        //                span.sr-only Toggle navigation
+        //                span.icon-bar
+        //                span.icon-bar
+        //                span.icon-bar
+        //            a.navbar-brand(href='#') Boiler pi
+        //.content
+        br
+        .container
+            .navbar.navbar-custom
+                .navbar-form
+                    label Date from:
+                    span &nbsp
+                    input.form-control.datepicker#dateFrom(type="text")
+                    span &nbsp
+                    label Date to:
+                    span &nbsp
+                    input.form-control.datepicker#dateTo(type="text")
+                    //span &nbsp
+                    //.btn-group
+                    //    a.btn.btn-default.dropdown-toggle(href='#', data-toggle="dropdown") Résolution
+                    //    ul.dropdown-menu
+                    //        li
+                    //            a(href='#') Jours
+                    //        li
+                    //            a(href='#') Semaines
+                    //        li
+                    //            a(href='#') Mois
+                    button.btn.btn-success.pull-right#refresh Refresh
+            #visualization

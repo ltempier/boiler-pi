@@ -1,6 +1,20 @@
 $(document).ready(function () {
 
+    $('.datepicker').datetimepicker({
+        autoclose: true,
+        todayBtn: true
+    });
 
+    $('#refresh').click(function () {
+        var dateFrom = $('#dateFrom').datetimepicker('getUTCDate').getTime();
+        var dateTo = $('#dateTo').datetimepicker('getUTCDate').getTime();
+        var url = '/api/conso/' + dateFrom + '/' + dateTo;
+
+        $.get(url, function(){
+
+        })
+
+    });
 
 
     var container = document.getElementById('visualization');
@@ -19,4 +33,4 @@ $(document).ready(function () {
         end: '2014-06-18'
     };
     var Graph2d = new vis.Graph2d(container, dataset, options);
-})
+});
