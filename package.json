@@ -1,0 +1,16 @@
+{
+  "name": "App",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.10.1",
+    "jade": "^1.7.0",
+    "moment": "^2.8.3",
+    "pi-gpio": "0.0.6",
+    "redis": "^0.12.1"
+  }
+}

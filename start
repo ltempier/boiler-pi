@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# ln start.sh /bin/usr/startApp
+# sudo chown root:rood /bin/usr/startApp
+# sudo chmod +x /bin/usr/startApp
+
+redis-server &
+NODE_ENV=raspberry node ./app.js
