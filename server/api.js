@@ -1,7 +1,7 @@
 'use strict';
-var mongodb = require('./mongodb');
 var moment = require('moment');
 var config = require('./config');
+var dataCollection = require('./mongodb').data;
 
 module.exports = function (app) {
     app.route('/api/conso/:from/:to')
