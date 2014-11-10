@@ -3,7 +3,7 @@
 var gpio = require('pi-gpio');
 var mongodb = require('./mongodb');
 var config = require('./config');
-var dataCollection = require('./mongodb').data;
+var dataCollection = require('./mongodb').collection('data');
 
 var recorder = null;
 var state = null;
@@ -21,11 +21,11 @@ module.exports = function () {
                 value = Boolean(value);
                 if (state == null || state != value) {
                     state = value;
-                    dataCollection.insert({date: Date.now(), state: value}, function (err) {
+                    dataCollection.insert({date: Date.now(), state: value}, function (err, result) {
                         if (err)
                             console.log('recorder error ' + err);
                         else
-                            console.log('add new state ' + value)
+                            console.log('add new state ' + result)
                     })
                 }
             });
