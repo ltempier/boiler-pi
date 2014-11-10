@@ -3,7 +3,7 @@
 var gpio = require('pi-gpio');
 var mongodb = require('./mongodb');
 var config = require('./config');
-var dataCollection = mongodb.collection('data');
+var dataCollection = mongodb.db.collection('data');
 
 var recorder = null;
 var state = null;
