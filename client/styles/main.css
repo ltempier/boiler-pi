@@ -3,3 +3,8 @@
     background-color: #ECF0F1;
     border-color: transparent;
 }
+
+#chart{
+    height: 400px;
+    width: 100%;
+}
