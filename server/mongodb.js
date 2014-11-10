@@ -15,11 +15,19 @@ module.exports.init = function (callback) {
             callback(err);
         }
         else {
-            console.log('mongodb connection ', config.mongodb);
-            database = db;
-            async.eachSeries(collections, function (collection, next) {
-                db.createCollection(collection, {}, next)
-            }, callback)
+            db.collectionNames({namesOnly:true}, function(err, existCollections){
+                console.log('mongodb connection ', config.mongodb);
+                existCollections = _.map(existCollections, function (existCollection) {
+                    return existCollection.split('.').pop()
+                });
+                var newCollections = _.difference(collections, existCollections);
+                database = db;
+                async.eachSeries(newCollections, function (collection, next) {
+                    console.log('mongodb new collection ', collection);
+                    db.createCollection(collection, {}, next)
+                }, callback)
+
+            })
         }
     });
 };
