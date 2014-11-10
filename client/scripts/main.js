@@ -51,6 +51,9 @@ $(document).ready(function () {
                     display: 'none'
                 }
             },
+            scrollbar: {
+                enabled: true
+            },
             xAxis: {
                 type: 'datetime',
                 dateTimeLabelFormats: {

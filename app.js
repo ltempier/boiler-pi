@@ -13,6 +13,7 @@ app.use(express.static(__dirname));
 app.use('/scripts', express.static(path.join(__dirname, 'client', 'scripts')));
 app.use('/styles', express.static(path.join(__dirname, 'client', 'styles')));
 app.use('/libraries', express.static(path.join(__dirname, 'client', 'libraries')));
+app.use('/images', express.static(path.join(__dirname, 'client', 'images')));
 
 
 app.use(function noCache(req, res, next) {
