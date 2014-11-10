@@ -8,11 +8,14 @@ var mongodb = require('./server/mongodb')
 
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'client', 'views'));
-app.use(express.static(__dirname));
 
+app.use(express.static(__dirname));
 app.use('/scripts', express.static(path.join(__dirname, 'client', 'scripts')));
 app.use('/styles', express.static(path.join(__dirname, 'client', 'styles')));
 app.use('/libraries', express.static(path.join(__dirname, 'client', 'libraries')));
+
+require('./server/api')(app);
+require('./server/route')(app);
 
 app.use(function noCache(req, res, next) {
     if (!config.raspberry || req.url.indexOf('/api/') === 0) {
@@ -22,10 +25,6 @@ app.use(function noCache(req, res, next) {
     }
     next();
 });
-
-
-require('./server/api')(app);
-require('./server/route')(app);
 
 mongodb.init(function (err) {
     if (!err){

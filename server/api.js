@@ -10,7 +10,6 @@ module.exports = function (app) {
             var dateTo = req.param('to');
 
 
-
         })
 };
 
