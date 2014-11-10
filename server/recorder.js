@@ -23,7 +23,7 @@ module.exports = function () {
                 if (state == null || state != value) {
                     console.log(Date.now() + ' new state ' + value)
                     state = value;
-                    redis.hmset(moment().utc().format(config.dateFormat), "state", value, "date", Date.now());
+                    redis.set(moment().utc().format(config.dateFormat), value);
                 }
             });
         }, 200)

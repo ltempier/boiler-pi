@@ -13,15 +13,11 @@ module.exports = function (app) {
             dateTo = moment(parseInt(dateTo)).format(config.dateFormat);
 
 
-            redis.keys('09/11/2014*', function (err, replies) {
-
-                console.log(arguments)
-//
-//                redis.mget(replies,function(){
-//
-//
-//
-//                    });
+            redis.keys('2014/11/09 11*', function (err, keys) {
+                redis.mget(keys,function(err, replies){
+                    console.log(keys)
+                    console.log(replies)
+                    });
                 })
         })
 };
