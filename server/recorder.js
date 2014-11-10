@@ -21,11 +21,11 @@ module.exports = function () {
                 value = Boolean(value);
                 if (state == null || state != value) {
                     state = value;
-                    dataCollection.insert({date: Date.now(), state: value}, function (err, result) {
+                    dataCollection.insert({date: new Date(), state: value}, function (err) {
                         if (err)
                             console.log('recorder error ' + err);
                         else
-                            console.log('add new state ' + result)
+                            console.log('add new state ' + value)
                     })
                 }
             });

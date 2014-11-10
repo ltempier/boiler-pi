@@ -8,7 +8,6 @@ var config = require('./config');
 var database = null;
 var collections = ['data'];
 
-
 module.exports.collection = function (collection) {
     if (database[collection])
         return database[collection];
