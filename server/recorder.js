@@ -1,8 +1,10 @@
 'use strict';
+
 var gpio = require('pi-gpio');
-var redis = require('./redis');
-var moment = require('moment');
+var mongodb = require('./mongodb');
 var config = require('./config');
+var moment = require('moment').db;
+var dataCollection = mongodb.collection('data');
 
 var recorder = null;
 var state = null;
@@ -10,20 +12,22 @@ var state = null;
 module.exports = function () {
     gpio.close(12);
     gpio.open(12, "input", function (err) {
-
         if (err) {
-            console.log('erreur gpio open 12 ', err)
+            console.log('erreur gpio open 12 ', err);
             return
         }
-
         recorder = setInterval(function () {
             gpio.read(12, function (err, value) {
                 if (err) throw err;
-                value = Boolean(value)
+                value = Boolean(value);
                 if (state == null || state != value) {
-                    console.log(Date.now() + ' new state ' + value)
                     state = value;
-                    redis.set(moment().utc().format(config.dateFormat), value);
+                    dataCollection.insert({date: Date.now(), state: value}, function (err) {
+                        if (err)
+                            console.log('recorder error ' + err);
+                        else
+                            console.log('add new state ' + value)
+                    })
                 }
             });
         }, 200)

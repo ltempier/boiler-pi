@@ -4,6 +4,7 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var config = require('./server/config')
+var mongodb = require('./server/mongodb')
 
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'client', 'views'));
@@ -22,11 +23,16 @@ app.use(function noCache(req, res, next) {
     next();
 });
 
-if (config.raspberry)
-    require('./server/recorder')();
+
 require('./server/api')(app);
 require('./server/route')(app);
 
-app.listen(8000, '0.0.0.0', function () {
-    console.log('Start express server')
-});
+mongodb.init(function (err) {
+    if (!err){
+        if (config.raspberry)
+            require('./server/recorder')();
+        app.listen(8000, '0.0.0.0', function () {
+            console.log('Start express server')
+        });
+    }
+})
