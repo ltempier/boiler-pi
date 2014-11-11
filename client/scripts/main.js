@@ -27,13 +27,13 @@ $(document).ready(function () {
 
     fetchDay();
     function fetchDay() {
-        var dayStart = moment().startOf('day');
-        var dayEnd = moment().endOf('day');
-        var dayUrl = '/api/conso/' + dayStart.valueOf() + '/' + dayEnd.valueOf();
-        $.get(dayUrl, function (dayData) {
-            display(dayData)
-        })
+        var dayStart = moment().subtract(1, 'days');
+        var dayEnd = moment();
+        $('#dateFrom').datetimepicker('update',  dayStart.format("YYYY-MM-DD HH:mm"))
+        $('#dateTo').datetimepicker('update',  dayEnd.format("YYYY-MM-DD HH:mm"))
+        $('#refresh').click();
     }
+
     function display(data){
         $('#chart').highcharts({
             chart: {

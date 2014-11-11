@@ -1,7 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 
-# ln start.sh /bin/usr/startApp
-# sudo chown root:rood /bin/usr/startApp
-# sudo chmod +x /bin/usr/startApp
+# sudo ln ./start /etc/init.d/start_app
+# sudo chmod +x /etc/init.d/start_app
 
-NODE_ENV=raspberry node ./app.js
+
+for i in {1..10}
+do
+    echo "BoilerPI try to start n°$i"
+    wget -q --tries=10 --timeout=20 --spider http://google.com
+    if [[ $? -eq 0 ]];
+        then
+            echo "Raspberry Online"
+            sudo rm -f /var/lib/mongodb/mongod.lock
+            sudo service mongod restart
+            NODE_ENV=raspberry forever start ./app.js
+            break
+        else
+            echo "Raspberry pi Offline"
+            sleep 1
+    fi
+done
