@@ -7,17 +7,15 @@ module.exports = function (app) {
         .get(function (req, res) {
             var dateFrom = new Date(parseInt(req.param('from')));
             var dateTo = new Date(parseInt(req.param('to')) || Date.now());
-            var q = {"date": {"$gte": dateFrom, "$lt": dateTo}};
-            console.log(q);
-            record.find({ $query: q, $orderby: { date: -1 } })
-                .limit(1000)
-                .toArray(function (err, replies) {
-                    console.log(arguments)
-                    if (err)
-                        res.send(500);
-                    else
-                        res.json(replies)
-                })
+            var query = {"date": {"$gte": dateFrom, "$lt": dateTo}};
+            console.log(query);
+            record.find(query, function (err, replies) {
+                console.log(arguments)
+                if (err)
+                    res.send(500);
+                else
+                    res.json(replies)
+            })
         })
 };
 
