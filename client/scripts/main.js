@@ -101,6 +101,9 @@ $(document).ready(function () {
     }
 
     function formatData(datas) {
+        datas = _.sortBy(datas, function(data){
+            data.date
+        });
         var buffer = [];
         var valueOn = 1;
         var valueOff = 0;
