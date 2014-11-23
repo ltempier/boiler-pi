@@ -4,7 +4,7 @@ var gpio = require('pi-gpio');
 var record = require('./nedb').get('record', true);
 
 var recorder = null;
-var state = null;
+var state = false;
 
 var recordPin = 12;
 
@@ -22,14 +22,15 @@ function start() {
             gpio.read(12, function (err, value) {
                 if (err) throw err;
                 value = Boolean(value);
-                if (state == null || state != value) {
-                    state = value;
+                if (state != value) {
                     record.insert([
                         {date: Date.now()-1, state: !value},
                         {date: Date.now(), state: value}
                     ], function (err) {
                         if (err)
-                            console.log('recording error ', err)
+                            console.log('recording error ', err);
+                        else
+                            state = value;
                     });
                 }
             });
