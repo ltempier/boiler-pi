@@ -25,8 +25,8 @@ function start() {
                 if (state == null || state != value) {
                     state = value;
                     record.insert([
-                        {date: new Date(), state: !value},
-                        {date: new Date(), state: value}
+                        {date: Date.now()-1, state: !value},
+                        {date: Date.now(), state: value}
                     ], function (err) {
                         if (err)
                             console.log('recording error ', err)
