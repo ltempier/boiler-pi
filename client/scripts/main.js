@@ -29,8 +29,8 @@ $(document).ready(function () {
     function fetchDay() {
         var dayStart = moment().subtract(1, 'days');
         var dayEnd = moment();
-        $('#dateFrom').datetimepicker('update',  dayStart.format("YYYY-MM-DD HH:mm"))
-        $('#dateTo').datetimepicker('update',  dayEnd.format("YYYY-MM-DD HH:mm"))
+        $('#dateFrom').datetimepicker('update', dayStart.format("YYYY-MM-DD HH:mm"));
+        $('#dateTo').datetimepicker('update', dayEnd.format("YYYY-MM-DD HH:mm"));
         $('#refresh').click();
     }
 
@@ -102,16 +102,12 @@ $(document).ready(function () {
     }
 
     function formatData(datas) {
-        var oldState = null;
         var buffer = [];
         var valueOn = 1;
         var valueOff = 0;
-        datas.reverse()
+        datas.reverse();
         _.each(datas, function (data) {
-            if ('null' != oldState)
-                buffer.push([moment(data.date).subtract(1, 'seconds').valueOf(), oldState ? valueOn : valueOff])
-            buffer.push([moment(data.date).add(0, 'seconds').valueOf(), data.state ? valueOn : valueOff])
-            oldState = data.state
+            buffer.push([moment(data.date).valueOf(), data.state ? valueOn : valueOff])
         });
         return buffer
     }
