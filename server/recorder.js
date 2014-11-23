@@ -1,16 +1,19 @@
 'use strict';
 
 var gpio = require('pi-gpio');
-var mongodb = require('./mongodb');
-var config = require('./config');
-var dataCollection = require('./mongodb').collection('data');
+var record = require('./nedb').get('record', true);
 
 var recorder = null;
 var state = null;
 
-module.exports = function () {
-    gpio.close(12);
-    gpio.open(12, "input", function (err) {
+var recordPin = 12;
+
+module.exports.start = start;
+module.exports.stop = stop;
+
+function start() {
+    stop();
+    gpio.open(recordPin, "input", function (err) {
         if (err) {
             console.log('erreur gpio open 12 ', err);
             return
@@ -21,19 +24,20 @@ module.exports = function () {
                 value = Boolean(value);
                 if (state == null || state != value) {
                     state = value;
-                    dataCollection.insert({date: new Date(), state: value}, function (err) {
+                    record.insert([
+                        {date: new Date(), state: !value},
+                        {date: new Date(), state: value}
+                    ], function (err) {
                         if (err)
-                            console.log('recorder error ' + err);
-                        else
-                            console.log('add new state ' + value)
-                    })
+                            console.log('recording error ', err)
+                    });
                 }
             });
         }, 200)
     });
-};
+}
 
 function stop() {
     clearInterval(recorder);
-    gpio.close(12);
+    gpio.close(recordPin);
 }

@@ -1,10 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 
+# chmod 777 start
+# chmod a+x start
 # sudo ln ./start /etc/init.d/start_app
-# sudo chmod +x /etc/init.d/start_app
+# sudo update-rc.d start_app defaults
 
 
-for i in {1..10}
+for i in 0 1 2 3 4 5 6 7 8 9
 do
     echo "BoilerPI try to start n°$i"
     wget -q --tries=10 --timeout=20 --spider http://google.com

@@ -1,7 +1,6 @@
 'use strict';
 var moment = require('moment');
-var config = require('./config');
-var dataCollection = require('./mongodb').collection('data');
+var record = require('./nedb').get('record');
 
 module.exports = function (app) {
     app.route('/api/conso/:from/:to')
@@ -10,7 +9,7 @@ module.exports = function (app) {
             var dateTo = new Date(parseInt(req.param('to')) || Date.now());
             var q = {"date": {"$gte": dateFrom, "$lt": dateTo}};
             console.log(q);
-            dataCollection.find({ $query: q, $orderby: { date : -1 } })
+            record.find({ $query: q, $orderby: { date: -1 } })
                 .limit(1000)
                 .toArray(function (err, replies) {
                     console.log(arguments)
