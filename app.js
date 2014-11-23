@@ -15,6 +15,8 @@ app.use('/libraries', express.static(path.join(__dirname, 'client', 'libraries')
 app.use('/images', express.static(path.join(__dirname, 'client', 'images')));
 
 app.use(function noCache(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     if (!raspberry || req.url.indexOf('/api/') === 0) {
         res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
         res.header('Pragma', 'no-cache');

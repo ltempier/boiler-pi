@@ -7,7 +7,7 @@ $(document).ready(function () {
     $('#refresh').click(function () {
         var dateFrom = $('#dateFrom').datetimepicker('getUTCDate').getTime();
         var dateTo = $('#dateTo').datetimepicker('getUTCDate').getTime();
-        var url = '/api/conso/' + dateFrom + '/' + dateTo;
+        var url = 'http://192.168.0.24:8000/api/conso/' + dateFrom + '/' + dateTo;
         $.ajax({
             url: url,
             success: function (data) {
