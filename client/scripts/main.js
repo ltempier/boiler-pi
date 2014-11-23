@@ -8,9 +8,20 @@ $(document).ready(function () {
         var dateFrom = $('#dateFrom').datetimepicker('getUTCDate').getTime();
         var dateTo = $('#dateTo').datetimepicker('getUTCDate').getTime();
         var url = 'http://192.168.0.24:8000/api/conso/' + dateFrom + '/' + dateTo;
+        var defaultData = [
+            {
+                date: dateFrom,
+                state: false
+            },
+            {
+                date: dateTo,
+                state: false
+            }
+        ];
         $.ajax({
             url: url,
             success: function (data) {
+                data = defaultData.concat(data)
                 display(data)
             },
             error: function (err) {
@@ -20,8 +31,8 @@ $(document).ready(function () {
     });
 
     Highcharts.setOptions({
-        global : {
-            useUTC : false
+        global: {
+            useUTC: false
         }
     });
 
@@ -34,7 +45,7 @@ $(document).ready(function () {
         $('#refresh').click();
     }
 
-    function display(data){
+    function display(data) {
         $('#chart').highcharts({
             chart: {
                 type: 'area'
@@ -101,9 +112,16 @@ $(document).ready(function () {
     }
 
     function formatData(datas) {
-        datas = _.sortBy(datas, function(data){
-            data.date
+
+        console.log(datas)
+
+        datas = _.sortBy(datas, function (data) {
+            return data.date
         });
+
+        console.log(datas)
+
+
         var buffer = [];
         var valueOn = 1;
         var valueOff = 0;
