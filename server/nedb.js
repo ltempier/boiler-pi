@@ -12,7 +12,7 @@ _.each(collections, function (collection) {
 });
 
 module.exports.get = function (collection, create) {
-    if (collections.indexOf(collection) > 0)
+    if (_.contains(collections, collection))
         return db[collection];
     else if (create) {
         collections.push(collection);
