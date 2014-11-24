@@ -1,31 +1,18 @@
 'use strict';
 
-var gpio = require('pi-gpio');
+var wpi = require('wiring-pi');
+var servoPin = 4 // pin 16;
 
-var servoPin = 16;
 
-var servo = null;
-
+wpi.setup();
+wpi.pinMode(servoPin, wpi.modes.PWM_OUTPUT);
+wpi.pwmSetClock(20);
 module.exports.setOrder = function (order) {
-    stop();
-    gpio.open(servoPin, "output", function (err) {
-        if (err) {
-            console.log('erreur gpio open ' + servoPin + ' ', err);
-            return
-        }
-        servo = setInterval(function () {
-            gpio.write(16, 1, function () {
-                setTimeout(function () {
-                    gpio.write(16, 0, function () {
-
-                    })
-                }, order)
-            })
-        }, 20)
-    })
+    order = Math.floor(order*1023/100)
+    wpi.pwmWrite(servoPin, order);
 };
 
-function stop() {
-    clearInterval(servo);
-    gpio.close(servoPin);
+
+function stop(){
+    wpi.pinMode(servoPin, wpi.modes.INPUT);
 }
