@@ -1,7 +1,7 @@
 'use strict';
 
 var wpi = require('wiring-pi');
-var servoPin = 4 // pin 16;
+var servoPin = 1 // pin 12;
 
 
 wpi.setup();
@@ -11,7 +11,6 @@ module.exports.setOrder = function (order) {
     order = Math.floor(order*1023/100)
     wpi.pwmWrite(servoPin, order);
 };
-
 
 function stop(){
     wpi.pinMode(servoPin, wpi.modes.INPUT);

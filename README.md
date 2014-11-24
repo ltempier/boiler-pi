@@ -13,4 +13,3 @@ install wiringPi
     git clone git://git.drogon.net/wiringPi
     cd wiringPi
     ./build
-

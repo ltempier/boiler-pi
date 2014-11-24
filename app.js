@@ -34,8 +34,7 @@ require('./server/route')(app);
 
 if (raspberry) {
     require('./server/recorder').start();
-
-    setInterval(function () {
+    setTimeout(function () {
         require('./server/servo').setOrder(0)
     }, 0)
     setInterval(function () {
