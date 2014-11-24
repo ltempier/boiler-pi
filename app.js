@@ -25,12 +25,22 @@ app.use(function noCache(req, res, next) {
     next();
 });
 
+
+
+
 require('./server/nedb');
 require('./server/api')(app);
 require('./server/route')(app);
 
-if (raspberry)
+if (!raspberry) {
+} else {
     require('./server/recorder').start();
+    require('./server/servo').setOrder(2)
+
+    setInterval(function () {
+        require('./server/servo').setOrder(1)
+    }, 5000)
+}
 app.listen(8000, '0.0.0.0', function () {
     console.log('Start express server')
 });
