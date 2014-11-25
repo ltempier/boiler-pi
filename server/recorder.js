@@ -6,7 +6,7 @@ var record = require('./nedb').get('record', true);
 var recorder = null;
 var state = false;
 
-var recordPin = 16;
+var recordPin = 12;
 
 module.exports.start = start;
 module.exports.stop = stop;
