@@ -26,29 +26,12 @@ app.use(function noCache(req, res, next) {
 });
 
 
-
-
 require('./server/nedb');
 require('./server/api')(app);
 require('./server/route')(app);
 
 if (raspberry) {
     require('./server/recorder').start();
-    setTimeout(function () {
-        require('./server/servo').setOrder(0)
-    }, 0)
-    setInterval(function () {
-        require('./server/servo').setOrder(50)
-    }, 2000)
-    setInterval(function () {
-        require('./server/servo').setOrder(100)
-    }, 4000)
-    setInterval(function () {
-        require('./server/servo').setOrder(50)
-    }, 6000)
-    setInterval(function () {
-        require('./server/servo').setOrder(25)
-    }, 8000)
 }
 
 app.listen(8000, '0.0.0.0', function () {
