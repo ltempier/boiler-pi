@@ -32,6 +32,7 @@ require('./server/route')(app);
 
 if (raspberry) {
     require('./server/recorder').start();
+    require('./server/stepper')
 }
 
 app.listen(8000, '0.0.0.0', function () {
