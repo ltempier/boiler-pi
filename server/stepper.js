@@ -11,6 +11,7 @@ var pins = _.values({
 })
 
 async.each(pins, function (pin, next) {
+    gpio.close(pin);
     gpio.open(pin, "output", next)
 }, function (err) {
     if (err)
