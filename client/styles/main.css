@@ -8,3 +8,22 @@
     height: 400px;
     width: 100%;
 }
+
+
+.boiler-panel .row{
+    height: 300px;
+}
+
+.boiler-btn{
+    margin: auto;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    background-color: #777;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
