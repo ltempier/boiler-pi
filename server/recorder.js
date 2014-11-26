@@ -24,7 +24,6 @@ function start() {
                 value = Boolean(value);
                 if (state != value) {
                     record.insert([
-                        {date: Date.now()-1, state: !value},
                         {date: Date.now(), state: value}
                     ], function (err) {
                         if (err)

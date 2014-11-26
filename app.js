@@ -26,6 +26,10 @@ if (raspberry) {
     require('./server/stepper')
 }
 
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'client', 'index.html'))
+})
+
 app.listen(8000, '0.0.0.0', function (err) {
     if (err)
         console.log('ERROR express server ', err);
