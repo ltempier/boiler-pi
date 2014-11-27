@@ -4,17 +4,16 @@
     border-color: transparent;
 }
 
-#chart{
+#chart {
     height: 400px;
     width: 100%;
 }
 
-
-.boiler-panel .row{
+.boiler-panel .row {
     height: 300px;
 }
 
-.boiler-btn{
+.boiler-btn {
     margin: auto;
     border-radius: 50%;
     width: 200px;

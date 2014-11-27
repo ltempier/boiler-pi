@@ -1,72 +1,55 @@
 app.controller('planning', ['$scope', function ($scope) {
-    var planning = angular.element('#planning')
-
-
-    planning.highcharts({
-
-        data: {
-            csv: document.getElementById('csv').innerHTML
-        },
-
-        chart: {
-            type: 'heatmap',
-            inverted: true,
-            backgroundColor: 'rgba(250,250,250,0)'
-        },
-
-
-        title: {
-            text: 'Highcharts heat map study',
-            align: 'left'
-        },
-
-        subtitle: {
-            text: 'Temperature variation by day and hour through April 2013',
-            align: 'left'
-        },
-
-        xAxis: {
-            tickPixelInterval: 50,
-            min: Date.UTC(2013, 3, 1),
-            max: Date.UTC(2013, 3, 30)
-        },
-
-        yAxis: {
-            title: {
-                text: null
+    $scope.weekDays = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday'];
+    $scope.schemas = _.range(5);
+    $scope.plannings = [
+        {
+            title: 'weekdays',
+            date: {
+                type: 'select',
+                from: 'Monday',
+                to: 'Friday'
             },
-            labels: {
-                format: '{value}:00'
+            schema: '',
+            required: true
+        },
+        {
+            title: 'weekend',
+            date: {
+                type: 'select',
+                from: 'Saturday',
+                to: 'Sunday'
             },
-            minPadding: 0,
-            maxPadding: 0,
-            startOnTick: false,
-            endOnTick: false,
-            tickPositions: [0, 6, 12, 18, 24],
-            tickWidth: 1,
-            min: 0,
-            max: 23
-        },
-
-        colorAxis: {
-            stops: [
-                [0, '#3060cf'],
-                [0.5, '#fffbbc'],
-                [0.9, '#c4463a']
-            ],
-            min: -5
-        },
-
-        series: [{
-            borderWidth: 0,
-            colsize: 24 * 36e5, // one day
-            tooltip: {
-                headerFormat: 'Temperature<br/>',
-                pointFormat: '{point.x:%e %b, %Y} {point.y}:00: <b>{point.value} ℃</b>'
-            }
-        }]
-
-    });
-
-
+            schema: '',
+            required: true
+        }
+    ];
+    $scope.add = function () {
+        $scope.plannings.push({
+            title: 'custom date ' + ($scope.plannings.length - 1),
+            date: {
+                type: 'date',
+                from: '',
+                to: ''
+            },
+            schema: '',
+            edit: true
+        })
+    };
+    $scope.save = function () {
+        _.each($scope.plannings, function (planning) {
+            delete planning.edit
+        })
+    };
+    $scope.remove = function (index) {
+        if (!$scope.plannings[index].required) {
+            $scope.plannings.splice(index, 1);
+        }
+    }
 }]);
