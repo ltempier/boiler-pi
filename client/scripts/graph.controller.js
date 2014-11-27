@@ -1,3 +1,3 @@
-app.controller('graph', ['$scope', function ($scope) {
+app.controller('graphCtrl', ['$scope', function ($scope) {
 
 }]);

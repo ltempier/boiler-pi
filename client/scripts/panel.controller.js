@@ -1,3 +1,3 @@
-app.controller('panel', ['$scope', function ($scope) {
+app.controller('panelCtrl', ['$scope', function ($scope) {
 
 }]);

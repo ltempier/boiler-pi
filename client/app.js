@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.bootstrap', 'ngRoute']);
+var app = angular.module('app', ['ui.bootstrap', 'ngRoute', 'ngResource']);
 
 
 var routes = [
@@ -6,19 +6,19 @@ var routes = [
         title: 'Dashboard',
         url: '/',
         templateUrl: 'templates/graph.html',
-        controller: 'graph'
+        controller: 'graphCtrl'
     },
     {
         title: 'Planning',
         url: '/planning',
         templateUrl: 'templates/planning.html',
-        controller: 'planning'
+        controller: 'planningCtrl'
     },
     {
         title: 'Panel',
         url: '/panel',
         templateUrl: 'templates/panel.html',
-        controller: 'panel'
+        controller: 'panelCtrl'
     }
 ];
 

@@ -1,4 +1,4 @@
-app.controller('planning', ['$scope', function ($scope) {
+app.controller('planningCtrl', ['$scope', '$modal', function ($scope, $modal) {
     $scope.weekDays = [
         'Monday',
         'Tuesday',
@@ -7,49 +7,96 @@ app.controller('planning', ['$scope', function ($scope) {
         'Friday',
         'Saturday',
         'Sunday'];
-    $scope.schemas = _.range(5);
-    $scope.plannings = [
-        {
-            title: 'weekdays',
-            date: {
-                type: 'select',
-                from: 'Monday',
-                to: 'Friday'
+
+    $scope.schemas = {
+        list: [
+            {
+                title: 'default',
+                id: ''
             },
-            schema: '',
-            required: true
-        },
-        {
-            title: 'weekend',
-            date: {
-                type: 'select',
-                from: 'Saturday',
-                to: 'Sunday'
+            {
+                title: 'custom 0',
+                id: ''
             },
-            schema: '',
-            required: true
+            {
+                title: 'custom 1',
+                id: ''
+            }
+        ],
+        show: function () {
+            var modalInstance = $modal.open({
+                templateUrl: 'schema.html',
+                controller: 'schemaCtrl',
+                resolve: {
+                    data: function () {
+                        return [1, 2, 3]
+                    }
+                }
+            });
+            modalInstance.result.then(function (selectedItem) {
+                $scope.selected = selectedItem;
+            }, function () {
+
+            });
         }
-    ];
-    $scope.add = function () {
-        $scope.plannings.push({
-            title: 'custom date ' + ($scope.plannings.length - 1),
-            date: {
-                type: 'date',
-                from: '',
-                to: ''
+    };
+
+    $scope.plannings = {
+        list: [
+            {
+                title: 'weekdays',
+                date: {
+                    type: 'select',
+                    from: 'Monday',
+                    to: 'Friday'
+                },
+                schema: '',
+                required: true
             },
-            schema: '',
-            edit: true
-        })
-    };
-    $scope.save = function () {
-        _.each($scope.plannings, function (planning) {
-            delete planning.edit
-        })
-    };
-    $scope.remove = function (index) {
-        if (!$scope.plannings[index].required) {
-            $scope.plannings.splice(index, 1);
+            {
+                title: 'weekend',
+                date: {
+                    type: 'select',
+                    from: 'Saturday',
+                    to: 'Sunday'
+                },
+                schema: '',
+                required: true
+            }
+        ],
+        add: function () {
+            this.list.push({
+                title: 'custom date ' + (this.list.length - 1),
+                date: {
+                    type: 'date',
+                    from: '',
+                    to: ''
+                },
+                schema: '',
+                edit: true
+            })
+        },
+        save: function () {
+            _.each(this.list, function (planning) {
+                delete planning.edit
+            })
+        },
+        remove: function (index) {
+            if (!this.list[index].required) {
+                this.list.splice(index, 1);
+            }
         }
     }
 }]);
+
+app.controller('schemaCtrl', ['$scope', '$modalInstance', 'data', function ($scope, $modalInstance, data) {
+    console.log(data)
+    $scope.ok = function () {
+        $modalInstance.close();
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
+
+

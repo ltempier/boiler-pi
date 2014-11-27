@@ -18,6 +18,11 @@ app.use(function noCache(req, res, next) {
     next();
 });
 
+app.use(function (req, res, next) {
+    console.log(req.url)
+    next()
+})
+
 require('./server/nedb');
 require('./server/api')(app);
 
@@ -25,6 +30,8 @@ if (raspberry) {
     require('./server/recorder').start();
     require('./server/stepper')
 }
+
+
 
 app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, 'client', 'index.html'))
