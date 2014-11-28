@@ -6,10 +6,9 @@
     </div>
     <div class="panel-body">
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 " ng-repeat="schema in schemas.list">
-                <div class="schema-item well" ng-click="schemas.show(schema)">
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 " ng-repeat="schema in schemas">
+                <div class="schema-item well" ng-click="schema.go()">
                     <p class="lead">{{schema.title}}</p>
-
                     <img src="images/chart.png" height="100" width="100">
                 </div>
             </div>
@@ -82,14 +81,3 @@
         </form>
     </div>
 </div>
-
-<script type="text/ng-template" id="schema.html">
-    <div class="modal-header">
-        <h3 class="modal-title">Titre</h3>
-    </div>
-    <div class="modal-body"></div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="ok()">OK</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-    </div>
-</script>

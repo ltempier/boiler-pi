@@ -1,4 +1,4 @@
-app.controller('planningCtrl', ['$scope', '$modal', function ($scope, $modal) {
+app.controller('planningCtrl', ['$scope', '$location', function ($scope, $location) {
     $scope.weekDays = [
         'Monday',
         'Tuesday',
@@ -8,38 +8,35 @@ app.controller('planningCtrl', ['$scope', '$modal', function ($scope, $modal) {
         'Saturday',
         'Sunday'];
 
-    $scope.schemas = {
-        list: [
-            {
-                title: 'default',
-                id: ''
-            },
-            {
-                title: 'custom 0',
-                id: ''
-            },
-            {
-                title: 'custom 1',
-                id: ''
-            }
-        ],
-        show: function () {
-            var modalInstance = $modal.open({
-                templateUrl: 'schema.html',
-                controller: 'schemaCtrl',
-                resolve: {
-                    data: function () {
-                        return [1, 2, 3]
-                    }
-                }
-            });
-            modalInstance.result.then(function (selectedItem) {
-                $scope.selected = selectedItem;
-            }, function () {
 
-            });
+    var schemaData = [
+        {
+            title: 'default',
+            id: '1'
+        },
+        {
+            title: 'custom 0',
+            id: '2'
+
+        },
+        {
+            title: 'custom 1',
+            id: '3'
         }
-    };
+    ];
+
+    function Schema(schema) {
+        _.extend(this, schema, {
+            go: function () {
+                console.log('go')
+                $location.path('schema/' + this.id);
+            }
+        })
+    }
+
+    $scope.schemas = _.map(schemaData, function (schema) {
+        return new Schema(schema)
+    });
 
     $scope.plannings = {
         list: [
@@ -88,15 +85,3 @@ app.controller('planningCtrl', ['$scope', '$modal', function ($scope, $modal) {
         }
     }
 }]);
-
-app.controller('schemaCtrl', ['$scope', '$modalInstance', 'data', function ($scope, $modalInstance, data) {
-    console.log(data)
-    $scope.ok = function () {
-        $modalInstance.close();
-    };
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
-}]);
-
-
