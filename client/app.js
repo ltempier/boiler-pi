@@ -1,5 +1,4 @@
-var app = angular.module('app', ['ui.bootstrap', 'ngRoute', 'ngResource']);
-
+var app = angular.module('app', ['ngRoute', 'ngResource']);
 
 var routes = [
     {
@@ -12,7 +11,12 @@ var routes = [
         title: 'Planning',
         url: '/planning',
         templateUrl: '/templates/planning.html',
-        controller: 'planningCtrl'
+        controller: 'planningCtrl',
+        resolve: {
+            allSchemas: function ($http) {
+                return $http.get('/api/schemas')
+            }
+        }
     },
     {
         title: 'Panel',
@@ -26,12 +30,12 @@ var routes = [
         templateUrl: '/templates/schema.html',
         controller: 'schemaCtrl',
         resolve: {
-            schema: function ($route) {
+            schema: function ($http, $route) {
                 var id = $route.current.params.id;
-                var testData = _.map(_.range(0, 25), function () {
-                    return 50
+                var testData = _.map(_.range(0, 25), function (index) {
+                    return {x: index, y: 50}
                 });
-                return {data: testData}
+                return $http.get('/api/schemas/' + id)
             }
         },
         navbar: false

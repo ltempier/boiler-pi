@@ -1,4 +1,4 @@
-app.controller('planningCtrl', ['$scope', '$location', function ($scope, $location) {
+app.controller('planningCtrl', ['$scope', '$location', 'allSchemas', function ($scope, $location, allSchemas) {
     $scope.weekDays = [
         'Monday',
         'Tuesday',
@@ -8,33 +8,15 @@ app.controller('planningCtrl', ['$scope', '$location', function ($scope, $locati
         'Saturday',
         'Sunday'];
 
-
-    var schemaData = [
-        {
-            title: 'default',
-            id: '1'
-        },
-        {
-            title: 'custom 0',
-            id: '2'
-
-        },
-        {
-            title: 'custom 1',
-            id: '3'
-        }
-    ];
-
     function Schema(schema) {
         _.extend(this, schema, {
             go: function () {
-                console.log('go')
-                $location.path('schema/' + this.id);
+                $location.path('schema/' + this._id);
             }
         })
     }
 
-    $scope.schemas = _.map(schemaData, function (schema) {
+    $scope.schemas = _.map(allSchemas.data, function (schema) {
         return new Schema(schema)
     });
 

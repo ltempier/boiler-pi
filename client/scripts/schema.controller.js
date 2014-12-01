@@ -1,8 +1,6 @@
-app.controller('schemaCtrl', ['$scope', 'schema', function ($scope, schema) {
+app.controller('schemaCtrl', ['$scope', '$http', 'schema', function ($scope, $http, schema) {
 
-
-    console.log(schema)
-
+    $scope.schema = schema.data
     var chart = new Highcharts.Chart({
         chart: {
             renderTo: 'graph',
@@ -66,10 +64,19 @@ app.controller('schemaCtrl', ['$scope', 'schema', function ($scope, schema) {
                 showInLegend: false,
 //                draggableX: true,
                 draggableY: true,
-                data: schema.data
+                data: $scope.schema.data
             }
         ]
 
     });
 
+    $scope.save = function () {
+        $http.post('/api/schemas', {
+            schema: $scope.schema
+        }).success(function (newSchema) {
+            $scope.schema = newSchema
+        }).error(function (data, status) {
+            console.log(arguments)
+        });
+    }
 }]);

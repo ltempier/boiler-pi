@@ -3,6 +3,7 @@
 var express = require('express');
 var path = require('path');
 var app = express();
+var bodyParser = require('body-parser');
 var raspberry = process.env.NODE_ENV === 'raspberry';
 
 app.use(express.static((path.join(__dirname, 'client'))));
@@ -22,6 +23,11 @@ app.use(function (req, res, next) {
     console.log(req.url)
     next()
 })
+
+app.use( bodyParser.json() );
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 require('./server/nedb');
 require('./server/api')(app);

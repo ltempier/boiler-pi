@@ -3,7 +3,7 @@ var path = require('path');
 var _ = require('underscore');
 
 var dbDirectory = path.join(__dirname, '..', 'data');
-var collections = ['record'];
+var collections = ['records','schemas'];
 
 var db = {};
 
