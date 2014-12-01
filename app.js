@@ -20,17 +20,18 @@ app.use(function noCache(req, res, next) {
 });
 
 app.use(function (req, res, next) {
-    console.log(req.url)
+    console.log(req.url);
     next()
-})
+});
 
-app.use( bodyParser.json() );
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
 require('./server/nedb');
 require('./server/api')(app);
+require('./server/schemas')(app);
 
 if (raspberry) {
     require('./server/recorder').start();
@@ -38,10 +39,9 @@ if (raspberry) {
 }
 
 
-
 app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, 'client', 'index.html'))
-})
+});
 
 app.listen(8000, '0.0.0.0', function (err) {
     if (err)

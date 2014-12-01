@@ -20,6 +20,10 @@ app.controller('planningCtrl', ['$scope', '$location', 'allSchemas', function ($
         return new Schema(schema)
     });
 
+    $scope.newSchema = function () {
+        $location.path('schema');
+    };
+
     $scope.plannings = {
         list: [
             {
