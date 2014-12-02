@@ -1,45 +1,14 @@
-app.controller('schemaCtrl', ['$scope', '$http', 'action', 'schema', function ($scope, $http, action, schema) {
+app.controller('schemaCtrl', ['$scope', '$http', '$timeout', 'action', 'schema', function ($scope, $http, $timeout, action, schema) {
 
     $scope.schema = schema.data;
 
-    $scope.chartConfig = {
-        options: {
-            chart: {
-                renderTo: 'graph',
-                animation: false,
-                type: 'areaspline'
-            },
-            plotOptions: {
-                series: {
-                    cursor: 'ns-resize',
-                    point: {
-                        events: {
-                            drag: function (e) {
-                                // Returning false stops the drag and drops. Example:
-                                if (e.newY < 0) {
-                                    this.y = 0;
-                                    return false;
-                                }
-                                if (e.newY > 100) {
-                                    this.y = 100;
-                                    return false;
-                                }
 
-                                $('#drag').html(
-                                        'Dragging <b>' + this.series.name + '</b>, <b>' + this.category + '</b> to <b>' + Highcharts.numberFormat(e.newY, 2) + '</b>');
-                            },
-                            drop: function () {
-                                $('#drop').html(
-                                        'In <b>' + this.series.name + '</b>, <b>' + this.category + '</b> was set to <b>' + Highcharts.numberFormat(this.y, 2) + '</b>');
-                            }
-                        }
-                    },
-                    stickyTracking: false
-                },
-                column: {
-                    stacking: 'normal'
-                }
-            }
+    var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'graph',
+            animation: false,
+            type: 'areaspline',
+            backgroundColor: 'rgba(255, 255, 255, 0.1)'
         },
         xAxis: {
             title: {
@@ -56,12 +25,13 @@ app.controller('schemaCtrl', ['$scope', '$http', 'action', 'schema', function ($
                 text: '%'
             }
         },
-
         tooltip: {
             valueDecimals: 0
         },
         series: [
             {
+                name: 'order',
+                color: '#4FC1E9',
                 showInLegend: false,
 //                draggableX: true,
                 draggableY: true,
@@ -71,7 +41,55 @@ app.controller('schemaCtrl', ['$scope', '$http', 'action', 'schema', function ($
         title: {
             text: ''
         },
-        loading: false
+        loading: false,
+        plotOptions: {
+            series: {
+                cursor: 'ns-resize',
+                point: {
+                    events: {
+                        drag: function (e) {
+                            this.y = Math.round(e.newY);
+                            if (e.newY < 0) {
+                                this.y = 0;
+                                return false;
+                            }
+                            if (e.newY > 100) {
+                                this.y = 100;
+                                return false;
+                            }
+                        },
+                        drop: function (e) {
+                            $scope.schema.data[e.currentTarget.x].y = Math.round(e.currentTarget.y);
+                        }
+                    }
+                },
+                stickyTracking: false
+            },
+            column: {
+                stacking: 'normal'
+            }
+        }
+    });
+
+
+    $scope.alert = {
+        show: false,
+        display: function (message, event, json) {
+            $scope.alert.message = message;
+            $scope.alert.json = json;
+            if (event == 'success') {
+                $scope.alert.icon = 'fa fa-check-circle';
+                $scope.alert.class = 'alert alert-success';
+            }
+            else if (event == 'error') {
+                $scope.alert.icon = 'fa fa-times-circle';
+                $scope.alert.class = 'alert alert-danger';
+            }
+            $scope.alert.show = true;
+            $timeout(function () {
+                $scope.alert.show = false
+            }, 2000)
+        }
     };
 
     $scope.save = function () {
@@ -81,11 +99,10 @@ app.controller('schemaCtrl', ['$scope', '$http', 'action', 'schema', function ($
         });
         action.data = {schema: $scope.schema};
         $http(action).success(function (newSchema) {
-            console.log('old ', $scope.schema.data[0]);
-            console.log('ok ', newSchema.data[0]);
-            $scope.schema = newSchema
-        }).error(function (data, status) {
-            console.log(arguments)
+            $scope.schema = newSchema;
+            $scope.alert.display('Save Successful.', 'success')
+        }).error(function (data) {
+            $scope.alert.display(data, 'error', data.err)
         });
     }
 }]);

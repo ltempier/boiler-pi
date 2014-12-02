@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute', 'ngResource', 'highcharts-ng']);
+var app = angular.module('app', ['ngRoute', 'ngResource']);
 
 var routes = [
     {
