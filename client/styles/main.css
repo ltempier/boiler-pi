@@ -1,7 +1,7 @@
 
-body {
-    background-color: rgb(241, 242, 246);
-}
+/*body {*/
+    /*background-color: rgb(241, 242, 246);*/
+/*}*/
 
 .navbar-custom {
     margin-top: 20px;
@@ -35,7 +35,7 @@ body {
 .schema-item {
     text-align: center;
     vertical-align: middle;
-    min-height: 250px;
+    /*min-height: 250px;*/
 }
 
 .schema-item:hover {

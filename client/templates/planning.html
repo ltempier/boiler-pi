@@ -7,16 +7,10 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 " ng-repeat="schema in schemas">
-                <div class="schema-item well" ng-click="schema.go()">
-                    <p class="lead">{{schema.title}}</p>
-                    <img src="images/chart.png" height="100" width="100">
-                </div>
+                <button class="btn btn-block btn-lg btn-primary" ng-click="schema.go()">{{schema.title}}</button>
             </div>
-
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                <div class="schema-item well" ng-click="newSchema()">
-                    <p class="lead">add</p>
-                </div>
+                <button class="btn btn-block btn-lg btn-success" ng-click="newSchema()">+add</button>
             </div>
         </div>
     </div>
@@ -29,55 +23,58 @@
         </div>
     </div>
     <div class="panel-body">
-        <form class="form-horizontal">
-            <div class="form-group" ng-repeat="planning in plannings.list">
-                <div class="col-md-2" ng-if="planning.edit">
-                    <input type="text" class="form-control" ng-model="planning.title" placeholder="title"/>
-                </div>
-                <label class="col-md-2 control-label" ng-if="!planning.edit">
-                    {{planning.title}}:
-                </label>
+        <div class="col-md-12">
+            <form class="form-horizontal">
+                <div class="form-group" ng-repeat="planning in plannings.list">
+                    <div class="col-md-2" ng-if="planning.edit">
+                        <input type="text" class="form-control" ng-model="planning.title" placeholder="title"/>
+                    </div>
+                    <label class="col-md-2 control-label" ng-if="!planning.edit">
+                        {{planning.title}}:
+                    </label>
 
-                <div class="col-md-3">
-                    <select class="form-control" ng-model="planning.date.from" ng-if="planning.date.type === 'select'"
-                            ng-options="day for day in weekDays">
-                    </select>
-                    <input type="{{planning.date.type}}" class="form-control" placeholder="From"
-                           ng-model="planning.date.from" ng-if="planning.date.type !== 'select'"/>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-control" ng-model="planning.date.to" ng-if="planning.date.type === 'select'"
-                            ng-options="day for day in weekDays"></select>
-                    <input type="{{planning.date.type}}" class="form-control" placeholder="From"
-                           ng-model="planning.date.to" ng-if="planning.date.type !== 'select'"/>
-                </div>
-                <label class="col-md-1 control-label">
-                    schema:
-                </label>
+                    <div class="col-md-3">
+                        <select class="form-control" ng-model="planning.date.from"
+                                ng-if="planning.date.type === 'select'"
+                                ng-options="day for day in weekDays">
+                        </select>
+                        <input type="{{planning.date.type}}" class="form-control" placeholder="From"
+                               ng-model="planning.date.from" ng-if="planning.date.type !== 'select'"/>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" ng-model="planning.date.to" ng-if="planning.date.type === 'select'"
+                                ng-options="day for day in weekDays"></select>
+                        <input type="{{planning.date.type}}" class="form-control" placeholder="From"
+                               ng-model="planning.date.to" ng-if="planning.date.type !== 'select'"/>
+                    </div>
+                    <label class="col-md-1 control-label">
+                        schema:
+                    </label>
 
-                <div class="col-md-2">
-                    <select class="form-control" ng-model="planning.schema"
-                            ng-options="schema.title for schema in schemas"></select>
+                    <div class="col-md-2">
+                        <select class="form-control" ng-model="planning.schema"
+                                ng-options="schema.title for schema in schemas"></select>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-warning btn-block" ng-click="plannings.remove($index)"
+                                ng-disabled="planning.required">
+                            <i class="fa fa-trash-o"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="col-md-1">
-                    <button class="btn btn-warning btn-block" ng-click="plannings.remove($index)"
-                            ng-disabled="planning.required">
-                        <i class="fa fa-trash-o"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-        <div class="pull-right">
-            <div class="btn-group">
-                <button class="btn btn-default" ng-click="plannings.add()">
-                    <i class="fa fa-plus">
-                        add custom date
-                    </i>
-                </button>
-                <button class="btn btn-success" ng-click="plannings.save()">
-                    <i class="fa fa-floppy-o"></i>
-                </button>
-            </div>
+            </form>
+        </div>
+        <div class="col-md-2 col-md-offset-9">
+            <button class="btn btn-link" ng-click="plannings.add()">
+                <i class="fa fa-plus">
+                    add custom date
+                </i>
+            </button>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-success btn-block" ng-click="plannings.save()">
+                <i class="fa fa-floppy-o"></i>
+            </button>
         </div>
     </div>
 </div>

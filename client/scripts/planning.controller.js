@@ -1,4 +1,4 @@
-app.controller('planningCtrl', ['$scope', '$location', 'allSchemas', function ($scope, $location, allSchemas) {
+app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', function ($scope, $location, $http, allSchemas) {
     $scope.weekDays = [
         'Monday',
         'Tuesday',
@@ -61,6 +61,8 @@ app.controller('planningCtrl', ['$scope', '$location', 'allSchemas', function ($
         },
         save: function () {
             _.each(this.list, function (planning) {
+
+
                 delete planning.edit
             })
         },

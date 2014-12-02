@@ -31,7 +31,7 @@ app.controller('schemaCtrl', ['$scope', '$http', '$timeout', 'action', 'schema',
         series: [
             {
                 name: 'order',
-                color: '#4FC1E9',
+                color: '#F39C12',
                 showInLegend: false,
 //                draggableX: true,
                 draggableY: true,
