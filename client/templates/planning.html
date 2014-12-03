@@ -5,12 +5,30 @@
         </div>
     </div>
     <div class="panel-body">
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 " ng-repeat="schema in schemas">
-                <button class="btn btn-block btn-lg btn-primary" ng-click="schema.go()">{{schema.title}}</button>
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+                <li ng-repeat="schema in schemas.list" ng-class="{active: schemas.select == schema}"
+                    ng-click="schemas.select = schema">
+                    <a href="#">{{schema.title}}</a>
+                </li>
+            </ul>
+            <button class="btn btn-success" ng-click="schemas.new()">
+                <i class="fa fa-plus"></i></i>
+            </button>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <input type="text" class="form-control" ng-model="schemas.select.title">
+
+                <div id="graph"></div>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                <button class="btn btn-block btn-lg btn-success" ng-click="newSchema()">+add</button>
+            <div class="row">
+                <button class="btn btn-success" ng-show="schemas.select" ng-click="schemas.save()">
+                    <i class="fa fa-floppy-o"></i></i>
+                </button>
+                <button class="btn btn-danger" ng-show="schemas.select" ng-click="schemas.delete()">
+                    <i class="fa fa-trash-o"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -53,10 +71,10 @@
 
                     <div class="col-md-2">
                         <select class="form-control" ng-model="planning.schema"
-                                ng-options="schema.title for schema in schemas"></select>
+                                ng-options="schema.title for schema in schemas.list"></select>
                     </div>
                     <div class="col-md-1">
-                        <button class="btn btn-warning btn-block" ng-click="plannings.remove($index)"
+                        <button class="btn btn-danger btn-block" ng-click="plannings.remove($index)"
                                 ng-disabled="planning.required">
                             <i class="fa fa-trash-o"></i>
                         </button>

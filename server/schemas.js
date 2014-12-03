@@ -11,7 +11,7 @@ module.exports = function (app) {
             }
         });
     });
-    app.put('/api/schemas/:id', function (req, res) {
+    app.post('/api/schemas/:id', function (req, res) {
         var schema = req.body.schema;
         if (schema) {
             schemas.update({ _id: req.param('id') }, schema, function (err) {
@@ -25,12 +25,12 @@ module.exports = function (app) {
         else
             res.status(500).json({message: 'schema data missing'})
     });
-    app.get('/api/schemas', function (req, res) {
-        schemas.find({}, function (err, allSchemas) {
+    app.delete('/api/schemas/:id', function (req, res) {
+        schemas.remove({ _id: req.param('id') }, {}, function (err) {
             if (err)
-                res.status(500).json({err: err, message: 'db error'});
+                res.status(404).json({err: err, message: 'db error'});
             else {
-                res.status(200).json(allSchemas)
+                res.status(200)
             }
         });
     });
@@ -48,4 +48,14 @@ module.exports = function (app) {
         else
             res.status(500).json({message: 'schema data missing'})
     })
+    app.get('/api/schemas', function (req, res) {
+        schemas.find({}, function (err, allSchemas) {
+            if (err)
+                res.status(500).json({err: err, message: 'db error'});
+            else {
+                res.status(200).json(allSchemas)
+            }
+        });
+    });
+
 };

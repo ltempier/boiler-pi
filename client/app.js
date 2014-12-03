@@ -23,47 +23,6 @@ var routes = [
         url: '/panel',
         templateUrl: '/templates/panel.html',
         controller: 'panelCtrl'
-    },
-    {
-        title: 'Schema',
-        url: '/schema',
-        templateUrl: '/templates/schema.html',
-        controller: 'schemaCtrl',
-        resolve: {
-            action: function () {
-                return {
-                    method: 'POST',
-                    url: '/api/schemas'
-                }
-            },
-            schema: function () {
-                var defaultData = _.map(_.range(0, 25), function (index) {
-                    return {x: index, y: 50}
-                });
-                return {data: {data: defaultData}}
-            }
-        },
-        navbar: false
-    },
-    {
-        title: 'Schema',
-        url: '/schema/:id',
-        templateUrl: '/templates/schema.html',
-        controller: 'schemaCtrl',
-        resolve: {
-            action: function ($route) {
-                var id = $route.current.params.id;
-                return {
-                    method: 'PUT',
-                    url: '/api/schemas/' + id
-                }
-            },
-            schema: function ($http, $route) {
-                var id = $route.current.params.id;
-                return $http.get('/api/schemas/' + id)
-            }
-        },
-        navbar: false
     }
 ];
 
