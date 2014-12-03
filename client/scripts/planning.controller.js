@@ -39,16 +39,15 @@ app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', fu
             if (this.select && this.select._id) {
                 var url = '/api/schemas/' + this.select._id;
                 $http.delete(url)
-
-                this.list.splice(_.indexOf(this.list, this.select), 1)
-                this.select = _.first(this.list);
             }
+            this.list.splice(_.indexOf(this.list, this.select), 1);
+            this.select = _.first(this.list);
         }
     };
 
     $scope.$watch('schemas.select', function (selectSchema) {
         if (selectSchema) {
-            var chart = new Highcharts.Chart(getChartConfig(selectSchema.data))
+            new Highcharts.Chart(getChartConfig(selectSchema.data))
         }
     });
 

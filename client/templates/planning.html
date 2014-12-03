@@ -1,34 +1,50 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <div class="panel-title">
-            My schemas
-        </div>
-    </div>
-    <div class="panel-body">
+<div class="row">
+    <div class="col-md-12">
+
         <div class="col-md-3">
-            <ul class="nav nav-pills nav-stacked">
-                <li ng-repeat="schema in schemas.list" ng-class="{active: schemas.select == schema}"
-                    ng-click="schemas.select = schema">
-                    <a href="#">{{schema.title}}</a>
-                </li>
-            </ul>
+            <div class="list-group">
+                <a href="#" class="list-group-item" ng-repeat="schema in schemas.list"
+                   ng-class="{active: schemas.select == schema}"
+                   ng-click="schemas.select = schema">
+                    {{schema.title}}
+                </a>
+            </div>
             <button class="btn btn-success" ng-click="schemas.new()">
                 <i class="fa fa-plus"></i></i>
             </button>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 well">
             <div class="row">
-                <input type="text" class="form-control" ng-model="schemas.select.title">
+                <div class="col-md-12">
 
-                <div id="graph"></div>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-1 control-label" ng-if="!planning.edit">
+                                Title:
+                            </label>
+
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" ng-model="schemas.select.title">
+                            </div>
+                            <div class="col-md-2">
+                                <div class="btn-group">
+                                    <a class="btn btn-success" ng-show="schemas.select"
+                                       ng-click="schemas.save()">
+                                        <i class="fa fa-floppy-o"></i></i>
+                                    </a>
+                                    <a class="btn btn-danger" ng-show="schemas.select"
+                                       ng-click="schemas.delete()">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div class="row">
-                <button class="btn btn-success" ng-show="schemas.select" ng-click="schemas.save()">
-                    <i class="fa fa-floppy-o"></i></i>
-                </button>
-                <button class="btn btn-danger" ng-show="schemas.select" ng-click="schemas.delete()">
-                    <i class="fa fa-trash-o"></i>
-                </button>
+                <div id="graph"></div>
             </div>
         </div>
     </div>
@@ -70,8 +86,11 @@
                     </label>
 
                     <div class="col-md-2">
-                        <select class="form-control" ng-model="planning.schema"
-                                ng-options="schema.title for schema in schemas.list"></select>
+                        <select class="form-control" ng-model="planning.schema">
+                            <option ng-repeat="schema in schemas.list">
+                                {{schema.title}}
+                            </option>
+                        </select>
                     </div>
                     <div class="col-md-1">
                         <button class="btn btn-danger btn-block" ng-click="plannings.remove($index)"
