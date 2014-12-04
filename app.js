@@ -32,6 +32,7 @@ app.use(bodyParser.urlencoded({
 require('./server/nedb');
 require('./server/api')(app);
 require('./server/schemas')(app);
+require('./server/plannings')(app);
 
 if (raspberry) {
     require('./server/recorder').start();

@@ -15,6 +15,9 @@ var routes = [
         resolve: {
             allSchemas: function ($http) {
                 return $http.get('/api/schemas')
+            },
+            allPlannings: function ($http) {
+                return $http.get('/api/plannings')
             }
         }
     },
@@ -50,3 +53,11 @@ app.controller('navbar', ['$scope', '$location', function ($scope, $location) {
         return link.url === $location.path();
     }
 }]);
+
+app.run(function ($rootScope) {
+    $rootScope.accessors = {
+        getId: function (element) {
+            return element._id
+        }
+    }
+});

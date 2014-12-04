@@ -59,37 +59,34 @@
     <div class="panel-body">
         <div class="col-md-12">
             <form class="form-horizontal">
-                <div class="form-group" ng-repeat="planning in plannings.list">
-                    <div class="col-md-2" ng-if="planning.edit">
+                <div class="form-group" ng-repeat="planning in plannings.list | orderBy:'required'"
+                     ng-if="!planning.remove">
+                    <div class="col-md-2" ng-if="!planning.required">
                         <input type="text" class="form-control" ng-model="planning.title" placeholder="title"/>
                     </div>
-                    <label class="col-md-2 control-label" ng-if="!planning.edit">
+                    <label class="col-md-2 control-label" ng-if="planning.required">
                         {{planning.title}}:
                     </label>
 
                     <div class="col-md-3">
-                        <select class="form-control" ng-model="planning.date.from"
-                                ng-if="planning.date.type === 'select'"
-                                ng-options="day for day in weekDays">
-                        </select>
-                        <input type="{{planning.date.type}}" class="form-control" placeholder="From"
-                               ng-model="planning.date.from" ng-if="planning.date.type !== 'select'"/>
+                        <select class="form-control" ng-model="planning.date.to" ng-if="planning.date.options"
+                                ng-options="day for day in planning.date.options"></select>
+                        <input type="date" class="form-control"
+                               ng-model="planning.date.to" ng-if="!planning.date.options"/>
                     </div>
                     <div class="col-md-3">
-                        <select class="form-control" ng-model="planning.date.to" ng-if="planning.date.type === 'select'"
-                                ng-options="day for day in weekDays"></select>
-                        <input type="{{planning.date.type}}" class="form-control" placeholder="From"
-                               ng-model="planning.date.to" ng-if="planning.date.type !== 'select'"/>
+                        <select class="form-control" ng-model="planning.date.to" ng-if="planning.date.options"
+                                ng-options="day for day in planning.date.options"></select>
+                        <input type="date" class="form-control"
+                               ng-model="planning.date.to" ng-if="!planning.date.options"/>
                     </div>
                     <label class="col-md-1 control-label">
                         schema:
                     </label>
 
                     <div class="col-md-2">
-                        <select class="form-control" ng-model="planning.schema">
-                            <option ng-repeat="schema in schemas.list">
-                                {{schema.title}}
-                            </option>
+                        <select class="form-control" ng-model="planning.schema"
+                                ng-options="accessors.getId(schema) as schema.title for schema in schemas.list">
                         </select>
                     </div>
                     <div class="col-md-1">

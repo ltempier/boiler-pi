@@ -1,16 +1,5 @@
-app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', function ($scope, $location, $http, allSchemas) {
-    $scope.weekDays = [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'];
-
-
+app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', 'allPlannings', function ($scope, $location, $http, allSchemas, allPlannings) {
     $scope.schemas = {
-        chart: '',
         list: allSchemas.data,
         new: function () {
             var defaultSchema = {
@@ -54,28 +43,7 @@ app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', fu
     $scope.schemas.select = _.first($scope.schemas.list);
 
     $scope.plannings = {
-        list: [
-            {
-                title: 'weekdays',
-                date: {
-                    type: 'select',
-                    from: 'Monday',
-                    to: 'Friday'
-                },
-                schema: '',
-                required: true
-            },
-            {
-                title: 'weekend',
-                date: {
-                    type: 'select',
-                    from: 'Saturday',
-                    to: 'Sunday'
-                },
-                schema: '',
-                required: true
-            }
-        ],
+        list: (allPlannings.data),
         add: function () {
             this.list.push({
                 title: 'custom date ' + (this.list.length - 1),
@@ -84,20 +52,21 @@ app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', fu
                     from: '',
                     to: ''
                 },
-                schema: '',
-                edit: true
+                schema: ''
             })
         },
         save: function () {
-            _.each(this.list, function (planning) {
+            var url = '/api/plannings';
+            $http.post(url, {plannings: this.list})
+                .success(function (newSchema) {
 
-
-                delete planning.edit
-            })
+                }).error(function (data) {
+                    console.log('post error', arguments)
+                });
         },
         remove: function (index) {
             if (!this.list[index].required) {
-                this.list.splice(index, 1);
+                this.list[index].remove = true
             }
         }
     };
