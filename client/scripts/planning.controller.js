@@ -52,7 +52,8 @@ app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', 'a
                     from: '',
                     to: ''
                 },
-                schema: ''
+                schema: '',
+                index: this.list.length
             })
         },
         save: function () {
@@ -100,7 +101,7 @@ app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', 'a
             series: [
                 {
                     name: 'order',
-                    color: '#F39C12',
+                    color: '#18BC9C',
                     showInLegend: false,
                     draggableY: true,
                     data: data

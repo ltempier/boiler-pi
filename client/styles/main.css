@@ -1,3 +1,10 @@
+body {
+    background: #EAF1F1;
+}
+
+.panel {
+    box-shadow: 0px 0px 77px -20px rgba(50, 50, 50, 1);
+}
 
 #chart {
     height: 400px;
