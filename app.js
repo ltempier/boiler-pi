@@ -33,8 +33,12 @@ app.use(bodyParser.urlencoded({
 
 if (raspberry) {
     async.series([
-        _.partial(require('./server/nedb').init),
-        _.partial(require('./server/stepper').init)
+        function (cb) {
+            require('./server/nedb').init(cb)
+        },
+        function (cb) {
+            require('./server/stepper').init(cb)
+        }
     ], function (err) {
         if (err)
             console.log('ERROR init server ', err);
@@ -60,7 +64,9 @@ if (raspberry) {
 
 } else {
     async.series([
-        _.partial(require('./server/nedb').init)
+        function (cb) {
+            require('./server/nedb').init(cb)
+        }
     ], function (err) {
         if (err)
             console.log('ERROR init server ', err);

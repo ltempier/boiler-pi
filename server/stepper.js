@@ -57,12 +57,15 @@ function init(callback) {
 
 
 function setOrder(order, callback) {
+
+    console.log('setOrder: ' + order);
+
     var orderSteps = order * currentConfig.maxStep / 100;
     var steps = currentConfig.position - orderSteps;
 
     var direction = true;
     if (steps < 0)
-        direction = false
+        direction = false;
     steps = Math.abs(steps);
     async.whilst(function () {
         return steps > 0;
