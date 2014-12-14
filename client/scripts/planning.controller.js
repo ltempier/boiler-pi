@@ -48,9 +48,9 @@ app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', 'a
             this.list.push({
                 title: 'custom date ' + (this.list.length - 1),
                 date: {
-                    type: 'date',
                     from: '',
-                    to: ''
+                    to: '',
+                    index: this.list.length
                 },
                 schema: '',
                 index: this.list.length

@@ -21,6 +21,7 @@ plannings.find({}, function (err, allPlannings) {
                     from: 'Monday',
                     to: 'Friday'
                 },
+                index: 0,
                 schema: '',
                 required: true
             },
@@ -39,6 +40,7 @@ plannings.find({}, function (err, allPlannings) {
                     to: 'Sunday'
                 },
                 schema: '',
+                index: 1,
                 required: true
             }
         ];
@@ -48,31 +50,39 @@ plannings.find({}, function (err, allPlannings) {
     }
 });
 
-module.exports = function (app) {
-    app.get('/api/plannings', function (req, res) {
-        plannings.find({}, function (err, allPlannings) {
-            if (err)
-                res.status(500).json({err: err, message: 'db error'});
-            else {
-                res.status(200).json(allPlannings)
-            }
+
+module.exports = {
+    getAllPlannings: getAllPlannings,
+    routes: function (app) {
+        app.get('/api/plannings', function (req, res) {
+            getAllPlannings(function (err, allPlannings) {
+                if (err)
+                    res.status(500).json({err: err, message: 'db error'});
+                else {
+                    res.status(200).json(allPlannings)
+                }
+            });
         });
-    });
-    app.post('/api/plannings', function (req, res) {
-        async.eachSeries(req.body.plannings, function (planning, next) {
-            if (planning._id) {
-                if (planning.remove)
-                    plannings.remove({ _id: planning._id }, {}, next);
-                else
-                    plannings.update({ _id: planning._id}, planning, {multi: true}, next);
-            } else
-                plannings.insert(planning, next);
-        }, function (err) {
-            if (err)
-                res.status(500).json({err: err, message: 'db error'});
-            else {
-                res.status(200)
-            }
+        app.post('/api/plannings', function (req, res) {
+            async.eachSeries(req.body.plannings, function (planning, next) {
+                if (planning._id) {
+                    if (planning.remove)
+                        plannings.remove({ _id: planning._id }, {}, next);
+                    else
+                        plannings.update({ _id: planning._id}, planning, {multi: true}, next);
+                } else
+                    plannings.insert(planning, next);
+            }, function (err) {
+                if (err)
+                    res.status(500).json({err: err, message: 'db error'});
+                else {
+                    res.status(200)
+                }
+            })
         })
-    })
+    }
 };
+
+function getAllPlannings(callback) {
+    plannings.find({}).sort({ index: 1 }).exec(callback);
+}

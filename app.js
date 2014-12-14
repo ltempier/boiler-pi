@@ -5,6 +5,8 @@ var path = require('path');
 var app = express();
 var bodyParser = require('body-parser');
 var raspberry = process.env.NODE_ENV === 'raspberry';
+var morgan = require('morgan')
+
 
 app.use(express.static((path.join(__dirname, 'client'))));
 
@@ -19,10 +21,7 @@ app.use(function noCache(req, res, next) {
     next();
 });
 
-app.use(function (req, res, next) {
-    console.log(req.url);
-    next()
-});
+app.use(morgan(':method :url :response-time'))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -30,9 +29,12 @@ app.use(bodyParser.urlencoded({
 }));
 
 require('./server/nedb');
+require('./server/jobs');
 require('./server/api')(app);
-require('./server/schemas')(app);
-require('./server/plannings')(app);
+require('./server/schemas').routes(app);
+require('./server/plannings').routes(app);
+
+require('./server/stepper').init()
 
 if (raspberry) {
     require('./server/recorder').start();
