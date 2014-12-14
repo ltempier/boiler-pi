@@ -1,4 +1,4 @@
-//var gpio = require('pi-gpio');
+var gpio = require('pi-gpio');
 var async = require('async');
 var _ = require('underscore');
 var steppers = require('./nedb').get('steppers');
@@ -48,10 +48,10 @@ function init(callback) {
             })
         },
         function (cb) {
-//        async.each(pins, function (pin, next) {
-//            gpio.close(pin);
-//            gpio.open(pin, "output", next)
-//        }, cb);
+            async.each(pins, function (pin, next) {
+                gpio.close(pin);
+                gpio.open(pin, "output", next)
+            }, cb);
         }], callback)
 }
 

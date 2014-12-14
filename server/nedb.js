@@ -1,17 +1,26 @@
+var _ = require('underscore');
+var async = require('async');
 var Datastore = require('nedb');
 var path = require('path');
-var _ = require('underscore');
 
 var dbDirectory = path.join(__dirname, '..', 'data');
 var collections = ['records', 'schemas', 'plannings', 'steppers'];
 
 var db = {};
 
-_.each(collections, function (collection) {
-    db[collection] = new Datastore({ filename: path.join(dbDirectory, collection), autoload: true });
-});
+module.exports = {
+    init: init,
+    get: get
+};
 
-module.exports.get = function (collection, create) {
+function init(callback) {
+    async.each(collections, function (collection, next) {
+        db[collection] = new Datastore({ filename: path.join(dbDirectory, collection), autoload: true });
+        db[collection].loadDatabase(next)
+    }, callback)
+}
+
+function get(collection, create) {
     if (_.contains(collections, collection))
         return db[collection];
     else if (create) {

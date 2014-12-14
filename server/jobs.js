@@ -8,6 +8,18 @@ var schemas = require('./schemas');
 var stepper = require('./stepper')
 
 
+module.exports.start = function () {
+    new CronJob('00 * * * * *', function () {
+
+        console.log('new job')
+
+        job(function (err) {
+            if (err)
+                console.log(err)
+        })
+    }, null, true, "America/Los_Angeles");
+}
+
 function job(callback) {
     var now = moment();
     plannings.getAllPlannings(function (err, plannings) {
@@ -43,10 +55,10 @@ function job(callback) {
         });
 
         if (currentSchemaId) {
-            schemas.getSchema(currentSchemaId, function (err, schema) {
-                var order = schema.data[now.hour()].y;
-                stepper.setOrder(order, callback)
-            })
+//            schemas.getSchema(currentSchemaId, function (err, schema) {
+//                var order = schema.data[now.hour()].y;
+//                stepper.setOrder(order, callback)
+//            })
         }
     })
 }
