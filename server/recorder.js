@@ -32,9 +32,6 @@ function start() {
                 if (err) throw err;
                 value = Boolean(value);
                 if (state != value) {
-
-                    console.log('new record')
-
                     records.insert(
                         {date: Date.now(), state: value}
                         , function (err) {

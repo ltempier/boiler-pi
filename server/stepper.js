@@ -13,7 +13,7 @@ var pins = _.values({
 
 var defaultConfig = {
     minStep: 0,
-    maxStep: 300,
+    maxStep: 200,
     position: 0
 };
 
@@ -55,24 +55,31 @@ function init(callback) {
         }], callback)
 }
 
-
+var wip = false;
 function setOrder(order, callback) {
-
-    console.log('setOrder: ' + order);
-
-    var orderSteps = order * currentConfig.maxStep / 100;
+    if (wip == true)
+        return;
+    wip = true;
+    var orderSteps = (order / 100) * (currentConfig.maxStep - currentConfig.minStep);
     var steps = orderSteps - currentConfig.position;
 
     var direction = true;
-    if (steps < 0)
+    if (steps < 0) {
         direction = false;
-    steps = Math.abs(steps);
+        steps = -steps;
+    }
     async.whilst(function () {
         return steps > 0;
     }, function (cb) {
         steps--;
         step(direction, cb)
-    }, callback);
+    }, function (err) {
+        wip = false;
+        if (err)
+            callback(err);
+        else
+            callback()
+    });
 }
 
 function step(direction, callback) {
@@ -94,9 +101,10 @@ function step(direction, callback) {
 
     if (!direction) {
         newPosition--;
+    } else {
         steps.reverse();
-    } else
         newPosition++;
+    }
 
     if (newPosition >= currentConfig.minStep && newPosition <= currentConfig.maxStep)
         async.series([
