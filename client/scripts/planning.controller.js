@@ -1,10 +1,13 @@
 app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', 'allPlannings', function ($scope, $location, $http, allSchemas, allPlannings) {
+
+    $scope.moment = moment;
+
     $scope.schemas = {
         list: allSchemas.data,
         new: function () {
             var defaultSchema = {
                 title: 'new schema',
-                data: _.map(_.range(0, 25), function (index) {
+                data: _.map(_.range(0, 24), function (index) {
                     return {x: index, y: 50}
                 })
             };
@@ -44,16 +47,19 @@ app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', 'a
 
     $scope.plannings = {
         list: (allPlannings.data),
-        add: function () {
+        addCustomDate: function () {
             this.list.push({
-                title: 'custom date ' + (this.list.length - 1),
+                title: 'custom date ' + (this.list.length - 1)
+            })
+        },
+        addWeekRange: function () {
+            this.list.push({
+                title: 'week range ' + (this.list.length - 1),
                 date: {
-                    from: '',
-                    to: '',
-                    index: this.list.length
-                },
-                schema: '',
-                index: this.list.length
+                    weekday: true,
+                    from: 1,
+                    to: 7
+                }
             })
         },
         save: function () {
@@ -67,7 +73,7 @@ app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', 'a
         },
         remove: function (index) {
             if (!this.list[index].required) {
-                this.list[index].remove = true
+                this.list.splice(index, 1);
             }
         }
     };

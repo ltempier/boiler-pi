@@ -13,7 +13,7 @@ var pins = _.values({
 
 var defaultConfig = {
     minStep: 0,
-    maxStep: 5000,
+    maxStep: 300,
     position: 0
 };
 
@@ -61,20 +61,15 @@ function setOrder(order, callback) {
     var steps = currentConfig.position - orderSteps;
 
     var direction = true;
-    if (steps < 0) {
+    if (steps < 0)
         direction = false
-    }
     steps = Math.abs(steps);
-    async.whilst(
-        function () {
-            return steps > 0;
-        },
-        function (cb) {
-            steps--;
-            step(direction, cb)
-        },
-        callback
-    );
+    async.whilst(function () {
+        return steps > 0;
+    }, function (cb) {
+        steps--;
+        step(direction, cb)
+    }, callback);
 }
 
 function step(direction, callback) {

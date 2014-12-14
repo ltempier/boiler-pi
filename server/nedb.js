@@ -15,7 +15,7 @@ module.exports = {
 
 function init(callback) {
     async.each(collections, function (collection, next) {
-        db[collection] = new Datastore({ filename: path.join(dbDirectory, collection), autoload: true });
+        db[collection] = new Datastore({ filename: path.join(dbDirectory, collection)});
         db[collection].loadDatabase(next)
     }, callback)
 }

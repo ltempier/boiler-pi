@@ -15,7 +15,7 @@ app.use(express.static((path.join(__dirname, 'client'))));
 app.use(function noCache(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    if (!raspberry || req.url.indexOf('/api/') === 0) {
+    if (req.url.indexOf('/api/') === 0) {
         res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
         res.header('Pragma', 'no-cache');
         res.header('Expires', 0);
@@ -31,30 +31,54 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-async.eachSeries([
-    _.partial(require('./server/nedb').init),
-    _.partial(require('./server/stepper').init)
-], function (err) {
-
-    require('./server/api').routes(app);
-    require('./server/schemas').routes(app);
-    require('./server/plannings').routes(app);
-
-    require('./server/jobs').start()
-
-    require('./server/recorder').start();
-
-    app.get('/*', function (req, res) {
-        res.sendFile(path.join(__dirname, 'client', 'index.html'))
-    });
-
-    app.listen(8000, '0.0.0.0', function (err) {
+if (raspberry) {
+    async.series([
+        _.partial(require('./server/nedb').init),
+        _.partial(require('./server/stepper').init)
+    ], function (err) {
         if (err)
-            console.log('ERROR express server ', err);
-        else
-            console.log('Start express server')
-    });
-})
+            console.log('ERROR init server ', err);
+        else {
 
+            require('./server/jobs').start();
+            require('./server/recorder').start();
+
+            require('./server/api')(app);
+
+            app.get('/*', function (req, res) {
+                res.sendFile(path.join(__dirname, 'client', 'index.html'))
+            });
+
+            app.listen(8080, '0.0.0.0', function (err) {
+                if (err)
+                    console.log('ERROR express server ', err);
+                else
+                    console.log('Start express server')
+            });
+        }
+    });
+
+} else {
+    async.series([
+        _.partial(require('./server/nedb').init)
+    ], function (err) {
+        if (err)
+            console.log('ERROR init server ', err);
+        else {
+            require('./server/api')(app);
+
+            app.get('/*', function (req, res) {
+                res.sendFile(path.join(__dirname, 'client', 'index.html'))
+            });
+
+            app.listen(8000, '0.0.0.0', function (err) {
+                if (err)
+                    console.log('ERROR express server ', err);
+                else
+                    console.log('Start express server')
+            });
+        }
+    });
+}
 
 

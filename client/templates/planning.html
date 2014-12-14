@@ -61,12 +61,19 @@
             My plannings
         </h4>
 
-        <div class="col-md-2 col-md-offset-7">
-            <button class="btn btn-link" ng-click="plannings.add()">
-                <i class="fa fa-plus">
-                    add custom date
-                </i>
-            </button>
+        <div class="col-md-4 col-md-offset-5">
+            <div class="btn-group pull-right">
+                <a class="btn btn-link" ng-click="plannings.addWeekRange()">
+                    <i class="fa fa-plus">
+                        periodic date
+                    </i>
+                </a>
+                <a class="btn btn-link" ng-click="plannings.addCustomDate()">
+                    <i class="fa fa-plus">
+                        custom date
+                    </i>
+                </a>
+            </div>
         </div>
         <div class="col-md-1">
             <button class="btn btn-success btn-block" ng-click="plannings.save()">
@@ -77,27 +84,28 @@
     <div class="panel-body">
         <div class="col-md-12">
             <form class="form-horizontal">
-                <div class="form-group" ng-repeat="planning in plannings.list"
-                     ng-if="!planning.remove">
-                    <div class="col-md-2" ng-if="!planning.required">
+                <div class="form-group" ng-repeat="planning in plannings.list">
+
+                    <div class="col-md-2">
                         <input type="text" class="form-control" ng-model="planning.title" placeholder="title"/>
                     </div>
-                    <label class="col-md-2 control-label" ng-if="planning.required">
-                        {{planning.title}}:
-                    </label>
 
                     <div class="col-md-3">
-                        <select class="form-control" ng-model="planning.date.from" ng-if="planning.date.options"
-                                ng-options="day for day in planning.date.options"></select>
+                        <select class="form-control" ng-model="planning.date.from" ng-if="planning.date.weekday"
+                                ng-options="moment().isoWeekday(day).format('dddd') for day in [1,2,3,4,5,6,7]"></select>
+
                         <input type="date" class="form-control"
-                               ng-model="planning.date.to" ng-if="!planning.date.options"/>
+                               ng-model="planning.date.to" ng-if="!planning.date.weekday"/>
                     </div>
+
                     <div class="col-md-3">
-                        <select class="form-control" ng-model="planning.date.to" ng-if="planning.date.options"
-                                ng-options="day for day in planning.date.options"></select>
+                        <select class="form-control" ng-model="planning.date.to" ng-if="planning.date.weekday"
+                                ng-options="moment().isoWeekday(day).format('dddd') for day in [1,2,3,4,5,6,7].splice(planning.date.from-1)"></select>
+
                         <input type="date" class="form-control"
-                               ng-model="planning.date.from" ng-if="!planning.date.options"/>
+                               ng-model="planning.date.from" ng-if="!planning.date.weekday"/>
                     </div>
+
                     <label class="col-md-1 control-label">
                         schema:
                     </label>

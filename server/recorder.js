@@ -8,8 +8,17 @@ var state = false;
 
 var recordPin = 12;
 
-module.exports.start = start;
-module.exports.stop = stop;
+module.exports = {
+    start: start,
+    stop: stop,
+    getConso: getConso
+};
+
+function getConso(dateFrom, dateTo, callback) {
+    dateTo = dateTo || Date.now();
+    var query = {"date": {"$gte": dateFrom, "$lt": dateTo}};
+    records.find(query, callback)
+}
 
 function start() {
     stop();
