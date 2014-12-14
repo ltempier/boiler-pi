@@ -61,7 +61,7 @@ function setOrder(order, callback) {
     console.log('setOrder: ' + order);
 
     var orderSteps = order * currentConfig.maxStep / 100;
-    var steps = currentConfig.position - orderSteps;
+    var steps = orderSteps - currentConfig.position;
 
     var direction = true;
     if (steps < 0)
