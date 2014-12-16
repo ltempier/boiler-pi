@@ -4,8 +4,8 @@ var routes = [
     {
         title: 'Dashboard',
         url: '/',
-        templateUrl: '/templates/graph.html',
-        controller: 'graphCtrl'
+        templateUrl: '/templates/dashboard.html',
+        controller: 'dashboardCtrl'
     },
     {
         title: 'Planning',
