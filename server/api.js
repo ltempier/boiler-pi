@@ -1,14 +1,13 @@
 'use strict';
 var _ = require('underscore');
 
-//var recorder = require('./recorder');
+var recorder = require('./recorder');
 var plannings = require('./plannings');
 var schemas = require('./schemas');
 
 module.exports = function (app) {
-    app.get('/api/conso/:from/:to', function (req, res) {
-        recorder.getConso(parseInt(req.param('from')),
-            parseInt(req.param('to')),
+    app.get('/api/records', function (req, res) {
+        recorder.getConso(parseInt(req.param('from')), parseInt(req.param('to')),
             function (err, replies) {
                 if (err)
                     res.status(500).json({err: err});

@@ -1,6 +1,6 @@
 'use strict';
 
-var gpio = require('pi-gpio');
+//var gpio = require('pi-gpio');
 var records = require('./nedb').get('records', true);
 
 var recorder = null;
@@ -9,8 +9,8 @@ var state = false;
 var recordPin = 12;
 
 module.exports = {
-    start: start,
-    stop: stop,
+//    start: start,
+//    stop: stop,
     getConso: getConso
 };
 

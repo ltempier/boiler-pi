@@ -21,12 +21,12 @@ var routes = [
             }
         }
     },
-    {
-        title: 'Panel',
-        url: '/panel',
-        templateUrl: '/templates/panel.html',
-        controller: 'panelCtrl'
-    }
+//    {
+//        title: 'Panel',
+//        url: '/panel',
+//        templateUrl: '/templates/panel.html',
+//        controller: 'panelCtrl'
+//    }
 ];
 
 app.config(['$routeProvider', '$locationProvider',
