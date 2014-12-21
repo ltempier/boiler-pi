@@ -10,7 +10,7 @@ require('../server/nedb').init(function (err) {
 
     var records = require('../server/nedb').get('records', true);
     addRandomRecords(
-        moment().startOf('year').valueOf(),
+        moment().startOf('month').valueOf(),
         moment().endOf('month').valueOf(),
         function () {
             console.log('addRandomRecords finish ', arguments)

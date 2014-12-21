@@ -4,4 +4,5 @@ app.controller('dashboardCtrl', ['$scope', 'recorderService', function ($scope, 
     recorderService.getData(moment().startOf('day'), moment().endOf('day'))
 
 
+
 }]);
