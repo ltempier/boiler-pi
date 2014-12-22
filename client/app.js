@@ -5,7 +5,14 @@ var routes = [
         title: 'Dashboard',
         url: '/',
         templateUrl: '/templates/dashboard.html',
-        controller: 'dashboardCtrl'
+        controller: 'dashboardCtrl',
+        resolve: {
+            dailyConsumption: function (recorderService) {
+                return recorderService.getData(
+                    moment().startOf('day'),
+                    moment().endOf('day'))
+            }
+        }
     },
     {
         title: 'Planning',
@@ -55,6 +62,13 @@ app.controller('navbar', ['$scope', '$location', function ($scope, $location) {
 }]);
 
 app.run(function ($rootScope) {
+
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+
     $rootScope.accessors = {
         getId: function (element) {
             return element._id
