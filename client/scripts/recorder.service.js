@@ -1,6 +1,5 @@
 app.factory('recorderService', ['$http', '$q', function ($http, $q) {
 
-
     var valueOn = 1;
     var valueOff = 0;
 
@@ -8,11 +7,19 @@ app.factory('recorderService', ['$http', '$q', function ($http, $q) {
         var formatListData = [];
         var currentState;
 
-        listData = _.sortBy(listData, function (data) {
+        var filterListData = _.filter(listData, function (data) {
+            if (params && params.startDate && params.endDate) {
+                return data.date >= params.startDate && data.date <= params.endDate
+            } else
+                return true
+
+        });
+
+        filterListData = _.sortBy(filterListData, function (data) {
             return data.date
         });
 
-        _.each(listData, function (data) {
+        _.each(filterListData, function (data) {
             if (data.state != currentState) {
                 currentState = data.state;
                 formatListData.push({
@@ -37,7 +44,7 @@ app.factory('recorderService', ['$http', '$q', function ($http, $q) {
                 to: endDate.valueOf()
             }}).
                 success(function (listData) {
-                    deferred.resolve(formatDataFromServer(listData))
+                    deferred.resolve(listData)
                 }).
                 error(function (data, status, headers, config) {
                     deferred.reject(arguments)
@@ -45,13 +52,10 @@ app.factory('recorderService', ['$http', '$q', function ($http, $q) {
 
             return deferred.promise;
         },
-        getPercentageConsumption: function (formatListData) {
-            var deltaTime = _.last(formatListData).x - _.first(formatListData).x;
+        getConsumptionTime: function (formatListData) {
             var deltaValue = 0;
             var lastDate = _.first(formatListData).x;
-
             var lastValue = _.first(formatListData).y;
-
             _.each(formatListData, function (data) {
                 if (data.y == valueOn && lastValue == valueOn) {
                     deltaValue += (data.x - lastDate)
@@ -59,7 +63,11 @@ app.factory('recorderService', ['$http', '$q', function ($http, $q) {
                 lastValue = data.y;
                 lastDate = data.x
             });
-            return deltaValue / deltaTime
+
+            return {
+                consumptionTime: deltaValue,
+                time: _.last(formatListData).x - _.first(formatListData).x
+            }
         },
         formatDataFromServer: formatDataFromServer
     }

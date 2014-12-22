@@ -7,9 +7,9 @@ var routes = [
         templateUrl: '/templates/dashboard.html',
         controller: 'dashboardCtrl',
         resolve: {
-            dailyConsumption: function (recorderService) {
+            currentWeekConsumption: function (recorderService) {
                 return recorderService.getData(
-                    moment().subtract(1, 'day'),
+                    moment().subtract(1, 'week'),
                     moment())
             }
         }
@@ -20,20 +20,31 @@ var routes = [
         templateUrl: '/templates/planning.html',
         controller: 'planningCtrl',
         resolve: {
-            allSchemas: function ($http) {
-                return $http.get('/api/schemas')
+            allSchemas: function ($http, $q) {
+                var deferred = $q.defer();
+                $http.get('/api/schemas')
+                    .success(function (listData) {
+                        deferred.resolve(listData)
+                    }).
+                    error(function (data, status, headers, config) {
+                        deferred.reject(arguments)
+                    });
+
+                return deferred.promise;
             },
-            allPlannings: function ($http) {
-                return $http.get('/api/plannings')
+            allPlannings: function ($http, $q) {
+                var deferred = $q.defer();
+                $http.get('/api/plannings')
+                    .success(function (listData) {
+                        deferred.resolve(listData)
+                    }).
+                    error(function (data, status, headers, config) {
+                        deferred.reject(arguments)
+                    });
+                return deferred.promise;
             }
         }
-    },
-//    {
-//        title: 'Panel',
-//        url: '/panel',
-//        templateUrl: '/templates/panel.html',
-//        controller: 'panelCtrl'
-//    }
+    }
 ];
 
 app.config(['$routeProvider', '$locationProvider',

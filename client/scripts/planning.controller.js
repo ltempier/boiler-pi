@@ -3,7 +3,7 @@ app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', 'a
     $scope.moment = moment;
 
     $scope.schemas = {
-        list: allSchemas.data,
+        list: allSchemas,
         new: function () {
             var defaultSchema = {
                 title: 'new schema',
@@ -46,7 +46,7 @@ app.controller('planningCtrl', ['$scope', '$location', '$http', 'allSchemas', 'a
     $scope.schemas.select = _.first($scope.schemas.list);
 
     $scope.plannings = {
-        list: (allPlannings.data),
+        list: (allPlannings),
         addCustomDate: function () {
             this.list.push({
                 title: 'custom date ' + (this.list.length - 1)
