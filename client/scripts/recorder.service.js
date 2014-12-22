@@ -16,7 +16,7 @@ app.factory('recorderService', ['$http', '$q', function ($http, $q) {
             if (data.state != currentState) {
                 currentState = data.state;
                 formatListData.push({
-                    x: data.date,
+                    x: data.date - 10,
                     y: !currentState ? valueOn : valueOff
                 });
                 formatListData.push({

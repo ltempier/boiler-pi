@@ -9,8 +9,8 @@ var routes = [
         resolve: {
             dailyConsumption: function (recorderService) {
                 return recorderService.getData(
-                    moment().startOf('day'),
-                    moment().endOf('day'))
+                    moment().subtract(1, 'day'),
+                    moment())
             }
         }
     },
