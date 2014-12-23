@@ -3,7 +3,7 @@
 
 #Installation 
 
-*quick2wire-gpio-admin:
+* quick2wire-gpio-admin:
 ```sh
 $ git clone git://github.com/quick2wire/quick2wire-gpio-admin.git
 $ cd quick2wire-gpio-admin
