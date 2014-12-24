@@ -2,20 +2,9 @@ var gpio = require('pi-gpio');
 var async = require('async');
 var _ = require('underscore');
 var steppers = require('./nedb').get('steppers');
+var config = require('./config');
 
-var pins = _.values({
-    blue: 29,
-    pink: 31,
-    yellow: 33,
-    orange: 35
-//    red: 37
-});
-
-var defaultConfig = {
-    minStep: 0,
-    maxStep: 200,
-    position: 0
-};
+var pins = _.values(config.stepperPins);
 
 var currentConfig;
 
@@ -35,7 +24,7 @@ function init(callback) {
                         currentConfig = config;
                         cb()
                     } else {
-                        steppers.insert(defaultConfig, function (err, newConfig) {
+                        steppers.insert(config.stepperDefaultConfig, function (err, newConfig) {
                             if (err)
                                 cb(err);
                             else {

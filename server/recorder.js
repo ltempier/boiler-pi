@@ -1,17 +1,20 @@
 'use strict';
 
-//var gpio = require('pi-gpio');
+var _ = require('underscore');
+var async = require('async');
 var records = require('./nedb').get('records', true);
+var config = require('./config');
 
 var recorder = null;
 var state = false;
 
-var recordPin = 12;
+var recordPin = config.recordPin;
 
 module.exports = {
 //    start: start,
 //    stop: stop,
-    getConso: getConso
+    getConso: getConso,
+    addRandomRecords: addRandomRecords
 };
 
 function getConso(dateFrom, dateTo, callback) {
@@ -21,14 +24,15 @@ function getConso(dateFrom, dateTo, callback) {
 }
 
 function start() {
-    stop();
+    var gpio = require('pi-gpio');
+    stop(gpio);
     gpio.open(recordPin, "input", function (err) {
         if (err) {
-            console.log('erreur gpio open 12 ', err);
+            console.log('erreur gpio open ' + recordPin, err);
             return
         }
         recorder = setInterval(function () {
-            gpio.read(12, function (err, value) {
+            gpio.read(recordPin, function (err, value) {
                 if (err) throw err;
                 value = Boolean(value);
                 if (state != value) {
@@ -46,7 +50,40 @@ function start() {
     });
 }
 
-function stop() {
+function stop(gpio) {
     clearInterval(recorder);
     gpio.close(recordPin);
+}
+
+function addRandomRecords(startDate, endDate, callback) {
+    var state = true;
+    var recordDate = startDate;
+    var count = 0;
+
+    var dates = [];
+
+    while (recordDate < endDate) {
+        dates.push(recordDate);
+        recordDate += _.random(10 * 1000, 60 * 60 * 1000);
+    }
+
+    async.eachSeries(dates, function (date, next) {
+        records.insert(
+            {date: date, state: state}
+            , function (err) {
+                if (err)
+                    next(err);
+                else {
+                    count++;
+                    state = !state;
+                    next()
+                }
+            });
+
+    }, function (err) {
+        if (err)
+            callback(err);
+        else
+            callback(null, count)
+    })
 }

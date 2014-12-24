@@ -2,19 +2,20 @@ var _ = require('underscore');
 var async = require('async');
 var moment = require('moment');
 var cronJob = require('cron').CronJob;
+var config = require('./config');
 
 var plannings = require('./plannings');
 var schemas = require('./schemas');
-var stepper = require('./stepper')
+var stepper = require('./stepper');
 
 module.exports.start = function () {
-    new cronJob('00 * * * * *', function () {
+    new cronJob(config.cronJobParam, function () {
         job(function (err) {
             if (err)
                 console.log(err)
         })
     }, null, true, "America/Los_Angeles");
-}
+};
 
 function job(callback) {
     var now = moment();

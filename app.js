@@ -8,7 +8,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var raspberry = process.env.NODE_ENV === 'raspberry';
 var morgan = require('morgan');
-
+var config = require('./server/config').server;
 
 app.use(express.static((path.join(__dirname, 'client'))));
 
@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-if (raspberry) {
+if (process.env.NODE_ENV === 'raspberry') {
     async.series([
         function (cb) {
             require('./server/nedb').init(cb)
@@ -53,7 +53,7 @@ if (raspberry) {
                 res.sendFile(path.join(__dirname, 'client', 'index.html'))
             });
 
-            app.listen(8080, '0.0.0.0', function (err) {
+            app.listen(config.port, config.ip, function (err) {
                 if (err)
                     console.log('ERROR express server ', err);
                 else
@@ -77,7 +77,7 @@ if (raspberry) {
                 res.sendFile(path.join(__dirname, 'client', 'index.html'))
             });
 
-            app.listen(8000, '0.0.0.0', function (err) {
+            app.listen(config.port, config.ip, function (err) {
                 if (err)
                     console.log('ERROR express server ', err);
                 else
