@@ -2,7 +2,7 @@ var _ = require('underscore');
 var async = require('async');
 var moment = require('moment');
 var cronJob = require('cron').CronJob;
-var config = require('./config');
+var config = require('../config');
 
 var plannings = require('./plannings');
 var schemas = require('./schemas');

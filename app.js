@@ -8,7 +8,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var raspberry = process.env.NODE_ENV === 'raspberry';
 var morgan = require('morgan');
-var config = require('./server/config').server;
+var config = require('./config').server;
 
 
 app.use(bodyParser.json());

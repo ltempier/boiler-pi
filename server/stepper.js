@@ -2,7 +2,7 @@ var gpio = require('pi-gpio');
 var async = require('async');
 var _ = require('underscore');
 var steppers = require('./nedb').get('steppers');
-var config = require('./config');
+var config = require('../config');
 
 var pins = _.values(config.stepperPins);
 

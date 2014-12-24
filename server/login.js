@@ -1,6 +1,6 @@
 var path = require('path');
 var _ = require('underscore');
-var config = require('./config').server;
+var config = require('../config').server;
 var session = require('cookie-session');
 
 module.exports = function (app) {

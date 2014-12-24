@@ -2,7 +2,7 @@ var _ = require('underscore');
 var async = require('async');
 var Datastore = require('nedb');
 var path = require('path');
-var config = require('./config').server;
+var config = require('../config').server;
 var dbDirectory = config.dbDirectory;
 var collections = ['records', 'schemas', 'plannings', 'steppers'];
 

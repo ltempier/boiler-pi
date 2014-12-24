@@ -3,7 +3,7 @@
 var _ = require('underscore');
 var async = require('async');
 var records = require('./nedb').get('records', true);
-var config = require('./config');
+var config = require('../config');
 
 var recorder = null;
 var state = false;
@@ -46,7 +46,7 @@ function start() {
                         });
                 }
             });
-        }, 200)
+        }, config.recordTimeInterval)
     });
 }
 

@@ -4,7 +4,7 @@ module.exports = {
     "server": {
         "port": 8000,
         "ip": "0.0.0.0",
-        dbDirectory: path.join(__dirname, '..', 'data'),
+        dbDirectory: path.join(__dirname, 'data'),
         "secret": "BoilerPi",
         "users": [
             {
