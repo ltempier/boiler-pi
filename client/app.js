@@ -72,17 +72,15 @@ app.controller('navbar', ['$scope', '$location', function ($scope, $location) {
     }
 }]);
 
-app.run(function ($rootScope) {
-
+app.run(['$rootScope', function ($rootScope) {
     Highcharts.setOptions({
         global: {
             useUTC: false
         }
     });
-
     $rootScope.accessors = {
         getId: function (element) {
             return element._id
         }
-    }
-});
+    };
+}]);

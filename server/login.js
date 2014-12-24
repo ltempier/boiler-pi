@@ -20,6 +20,11 @@ module.exports = function (app) {
         }
     });
 
+    app.get('/logout', function (req, res) {
+        req.session = null;
+        res.sendFile(path.join(__dirname, '..', 'client', 'login.html'))
+    });
+
     app.use(function (req, res, next) {
         if (req.session && req.session.connect == true)
             next();
