@@ -10,8 +10,11 @@ var raspberry = process.env.NODE_ENV === 'raspberry';
 var morgan = require('morgan');
 var config = require('./server/config').server;
 
-app.use(express.static((path.join(__dirname, 'client'))));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(function noCache(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -25,11 +28,9 @@ app.use(function noCache(req, res, next) {
 
 app.use(morgan(':method :url :response-time'));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+require('./server/login')(app);
 
+app.use(express.static((path.join(__dirname, 'client'))));
 
 if (process.env.NODE_ENV === 'raspberry') {
     async.series([

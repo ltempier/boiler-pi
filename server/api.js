@@ -27,9 +27,7 @@ module.exports = function (app) {
             });
     });
     app.post('/api/schemas/:id', function (req, res) {
-
         var schema = req.body.schema;
-
         schemas.updateSchema(
             req.param('id'),
             schema,

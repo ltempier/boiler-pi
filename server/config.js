@@ -3,7 +3,19 @@ var path = require('path');
 module.exports = {
     "server": {
         "port": 8000,
-        "ip": "0.0.0.0"
+        "ip": "0.0.0.0",
+        dbDirectory: path.join(__dirname, '..', 'data'),
+        "secret": "BoilerPi",
+        "users": [
+            {
+                "username": "yo",
+                "password": "yo"
+            },
+            {
+                "username": "user",
+                "password": "password"
+            }
+        ]
     },
     "cronJobParam": "00 * * * * *",
     "recordPin": 12,
@@ -18,6 +30,5 @@ module.exports = {
         minStep: 0,
         maxStep: 200,
         position: 0
-    },
-    dbDirectory: path.join(__dirname, '..', 'data')
+    }
 };
