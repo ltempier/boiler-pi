@@ -63,7 +63,7 @@ app.config(['$routeProvider', '$locationProvider',
     }
 ]);
 
-app.controller('navbar', ['$scope', '$location', function ($scope, $location) {
+app.controller('navbar', ['$scope', '$location', '$http', function ($scope, $location, $http) {
     $scope.links = _.reject(routes, function (route) {
         return route.navbar == false
     });

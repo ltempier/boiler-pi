@@ -43,3 +43,25 @@ body {
     max-width: 100%;
     max-height: 100%;
 }
+
+.switch {
+    color: #2C3E50;
+    background-color: #1A242F;
+}
+
+.switch.left {
+    padding-left: 20px;
+    padding-right: 10px;
+    border-radius: 50px 0px 0px 50px;
+}
+
+.switch.right {
+    padding-left: 10px;
+    padding-right: 20px;
+    border-radius: 0px 50px 50px 0px;
+}
+
+.switch.active {
+    color: #2C3E50 !important;
+    background-color: #E6EDED;
+}

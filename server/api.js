@@ -6,6 +6,11 @@ var plannings = require('./plannings');
 var schemas = require('./schemas');
 
 module.exports = function (app) {
+
+    app.get('/api/mode', function(req, res){
+
+    })
+
     app.get('/api/records', function (req, res) {
         recorder.getConso(parseInt(req.param('from')), parseInt(req.param('to')),
             function (err, replies) {

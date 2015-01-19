@@ -6,7 +6,6 @@ app.factory('recorderService', ['$http', '$q', function ($http, $q) {
     function formatDataFromServer(listData, params) {
         var formatListData = [];
         var currentState;
-
         var filterListData = _.filter(listData, function (data) {
             if (params && params.startDate && params.endDate) {
                 return data.date >= params.startDate && data.date <= params.endDate
@@ -14,11 +13,9 @@ app.factory('recorderService', ['$http', '$q', function ($http, $q) {
                 return true
 
         });
-
         filterListData = _.sortBy(filterListData, function (data) {
             return data.date
         });
-
         _.each(filterListData, function (data) {
             if (data.state != currentState) {
                 currentState = data.state;
@@ -68,6 +65,12 @@ app.factory('recorderService', ['$http', '$q', function ($http, $q) {
                 consumptionTime: deltaValue,
                 time: _.last(formatListData).x - _.first(formatListData).x
             }
+        },
+        concatDataByDay: function (formatListData) {
+            var mCurrentDate = moment(_.first(formatListData).x)
+
+
+
         },
         formatDataFromServer: formatDataFromServer
     }

@@ -2,6 +2,7 @@ app.controller('dashboardCtrl', ['$scope', 'recorderService', 'currentWeekConsum
 
 
     displayChart('#daily-chart', moment().startOf('day'), moment().endOf('day'));
+    displayChart('#week-chart', moment().startOf('week'), moment().endOf('week'));
 
     function displayChart(chartId, startDate, endDate) {
         var data = recorderService.formatDataFromServer(currentWeekConsumption, {startDate: startDate, endDate: endDate})
