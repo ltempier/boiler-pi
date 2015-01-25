@@ -82,7 +82,7 @@ if (process.env.NODE_ENV === 'raspberry') {
                 if (err)
                     console.log('ERROR express server ', err);
                 else
-                    console.log('Start express server')
+                    console.log('Start express server on port ' + config.port)
             });
         }
     });
