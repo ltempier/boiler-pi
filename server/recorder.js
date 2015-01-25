@@ -4,18 +4,25 @@ var _ = require('underscore');
 var async = require('async');
 var records = require('./nedb').get('records', true);
 var config = require('../config');
+var raspberry = process.env.NODE_ENV === 'raspberry';
 
 var recorder = null;
 var state = false;
 
 var recordPin = config.recordPin;
 
-module.exports = {
-//    start: start,
-//    stop: stop,
-    getConso: getConso,
-    addRandomRecords: addRandomRecords
-};
+if (raspberry)
+    module.exports = {
+        start: start,
+        stop: stop,
+        getConso: getConso,
+        addRandomRecords: addRandomRecords
+    };
+else
+    module.exports = {
+        getConso: getConso,
+        addRandomRecords: addRandomRecords
+    };
 
 function getConso(dateFrom, dateTo, callback) {
     dateTo = dateTo || Date.now();
