@@ -4,7 +4,7 @@ var _ = require('underscore');
 var steppers = require('./nedb').get('steppers');
 
 var pins = _.values(config.stepperPins);
-
+var config = require('../config');
 var currentConfig;
 
 module.exports = {
@@ -15,15 +15,15 @@ module.exports = {
 function init(callback) {
     async.series([
         function (cb) {
-            steppers.findOne({}, function (err, config) {
+            steppers.findOne({}, function (err, stepperConfig) {
                 if (err)
                     cb(err);
                 else {
-                    if (config) {
-                        currentConfig = config;
+                    if (stepperConfig) {
+                        currentConfig = stepperConfig;
                         cb()
                     } else {
-                        steppers.insert(require('../config').stepperDefaultConfig, function (err, newConfig) {
+                        steppers.insert(config.stepperDefaultConfig, function (err, newConfig) {
                             if (err)
                                 cb(err);
                             else {
