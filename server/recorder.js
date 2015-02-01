@@ -61,6 +61,9 @@ function stop(gpio) {
     try {
         gpio.close(recordPin);
     }
+    catch (err) {
+        console.log(err)
+    }
 }
 
 function addRandomRecords(startDate, endDate, callback) {

@@ -41,7 +41,12 @@ function init(callback) {
                 try {
                     gpio.close(pin);
                 }
-                gpio.open(pin, "output", next)
+                catch (err) {
+                    console.log(err)
+                }
+                finally {
+                    gpio.open(pin, "output", next)
+                }
             }, cb);
         }], callback)
 }
