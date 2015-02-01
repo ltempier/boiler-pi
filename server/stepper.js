@@ -3,8 +3,8 @@ var async = require('async');
 var _ = require('underscore');
 var steppers = require('./nedb').get('steppers');
 
-var pins = _.values(config.stepperPins);
 var config = require('../config');
+var pins = _.values(config.stepperPins);
 var currentConfig;
 
 module.exports = {
