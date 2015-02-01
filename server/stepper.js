@@ -78,13 +78,13 @@ function setOrder(order, callback) {
     });
 }
 
-function addSteps(step, callback) {
+function addSteps(stepCount, callback) {
     var count = 0;
-    var direction = step > 0;
-    step = Math.abs(step);
+    var direction = stepCount > 0;
+    stepCount = Math.abs(stepCount);
     async.whilst(
         function () {
-            return count < step;
+            return count < stepCount;
         },
         function (cb) {
             count++;
