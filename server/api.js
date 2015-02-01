@@ -7,7 +7,7 @@ var schemas = require('./schemas');
 
 module.exports = function (app) {
 
-    app.get('/api/mode', function(req, res){
+    app.get('/api/mode', function (req, res) {
 
     });
 
@@ -61,7 +61,7 @@ module.exports = function (app) {
                 res.status(200).json(newSchema)
             }
         });
-    })
+    });
     app.get('/api/schemas', function (req, res) {
         schemas.getAllSchemas(function (err, allSchemas) {
             if (err)
@@ -88,7 +88,19 @@ module.exports = function (app) {
                 res.status(200)
             }
         })
-    })
+    });
+    if (process.env.NODE_ENV !== 'raspberry') {
+        var stepper = require('./server/stepper');
+        app.post('/api/steppers', function (req, res) {
+            stepper.addSteps(5, function (err) {
+                if (err)
+                    res.status(500).json({err: err});
+                else {
+                    res.status(200)
+                }
+            })
+        });
+    }
 };
 
 

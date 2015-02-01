@@ -9,7 +9,8 @@ var currentConfig;
 
 module.exports = {
     init: init,
-    setOrder: setOrder
+    setOrder: setOrder,
+    addSteps: addSteps
 };
 
 function init(callback) {
@@ -68,6 +69,23 @@ function setOrder(order, callback) {
         else
             callback()
     });
+}
+
+function addSteps(step, callback) {
+    var count = 0;
+    var direction = step > 0;
+    step = Math.abs(step);
+    async.whilst(
+        function () {
+            return count < step;
+        },
+        function (cb) {
+            count++;
+            step(direction, cb)
+        },
+        callback
+    );
+
 }
 
 function step(direction, callback) {

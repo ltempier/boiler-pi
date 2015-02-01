@@ -44,6 +44,15 @@ var routes = [
                 return deferred.promise;
             }
         }
+    },
+    {
+        title: 'Panel',
+        url: '/panel',
+        templateUrl: '/templates/panel.html',
+        controller: 'panelCtrl',
+        resolve: {
+
+        }
     }
 ];
 
