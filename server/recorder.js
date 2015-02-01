@@ -4,14 +4,13 @@ var _ = require('underscore');
 var async = require('async');
 var records = require('./nedb').get('records', true);
 var config = require('../config');
-var raspberry = process.env.NODE_ENV === 'raspberry';
 
 var recorder = null;
 var state = false;
 
 var recordPin = config.recordPin;
 
-if (raspberry)
+if (process.env.NODE_ENV === 'raspberry')
     module.exports = {
         start: start,
         stop: stop,

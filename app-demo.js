@@ -9,7 +9,6 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var config = require('./config').server;
 
-process.env.NODE_ENV = 'raspberry';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -35,18 +34,11 @@ app.use(express.static((path.join(__dirname, 'client'))));
 async.series([
     function (cb) {
         require('./server/nedb').init(cb)
-    },
-    function (cb) {
-        require('./server/stepper').init(cb)
     }
 ], function (err) {
     if (err)
         console.log('ERROR init server ', err);
     else {
-
-        require('./server/jobs').start();
-        require('./server/recorder').start();
-
         require('./server/api')(app);
 
         app.get('/*', function (req, res) {
@@ -61,5 +53,6 @@ async.series([
         });
     }
 });
+
 
 
