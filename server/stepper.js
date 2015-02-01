@@ -38,7 +38,9 @@ function init(callback) {
         },
         function (cb) {
             async.each(pins, function (pin, next) {
-                gpio.close(pin);
+                try {
+                    gpio.close(pin);
+                }
                 gpio.open(pin, "output", next)
             }, cb);
         }], callback)

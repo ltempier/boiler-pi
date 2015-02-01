@@ -58,7 +58,9 @@ function start() {
 
 function stop(gpio) {
     clearInterval(recorder);
-    gpio.close(recordPin);
+    try {
+        gpio.close(recordPin);
+    }
 }
 
 function addRandomRecords(startDate, endDate, callback) {
