@@ -91,8 +91,8 @@ module.exports = function (app) {
     });
     if (process.env.NODE_ENV !== 'raspberry') {
         var stepper = require('./server/stepper');
-        app.post('/api/steppers', function (req, res) {
-            stepper.addSteps(5, function (err) {
+        app.post('/api/steps', function (req, res) {
+            stepper.addSteps(req.body.steps, function (err) {
                 if (err)
                     res.status(500).json({err: err});
                 else {

@@ -1,9 +1,8 @@
-app.controller('panelCtrl', ['$scope', function ($scope, $http) {
+app.controller('panelCtrl', ['$scope','$http', function ($scope, $http) {
 
     $scope.steps = 0
     $scope.addSteps = function(){
-        var url = '/api/stepper';
-        $http.post(url, {steps: $scope.steps})
+        $http.post('/api/steps', {steps: $scope.steps})
             .success(function () {
 
             }).error(function (data) {
